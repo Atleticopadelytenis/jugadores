@@ -87,6 +87,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .partidos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;min-width:0}
 .partido{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
 .partido .pareja{font:700 1rem/1.3 var(--display);overflow-wrap:anywhere}
+.barra-1{grid-template-columns:1fr;max-width:360px}
+.partido .ptop{display:flex;justify-content:flex-end;margin-bottom:-4px}
 .partido .vs{font:700 .72rem var(--display);letter-spacing:.12em;color:var(--muted)}
 @media (max-width:480px){.turno{grid-template-columns:1fr;gap:4px}.turno time{padding-top:6px}}
 .contacto{margin-top:40px;background:var(--rojo-hondo);color:var(--on-rojo)}
@@ -136,9 +138,15 @@ footer b{color:var(--fg);font-weight:600}
 
 <div id="vista-partidos" hidden>
 <section class="intro"><div class="wrap">
-  <p class="eyebrow">Agenda del club</p>
+  <p class="eyebrow">Torneo Largo del Millón</p>
   <h1>Partidos</h1>
-  <p class="sub">Los próximos partidos que se juegan en el club, por día y horario.</p>
+  <p class="sub">Los próximos partidos del torneo, por día y horario. Elegí tu categoría para ver solo tus partidos.</p>
+</div></section>
+<section class="filtros"><div class="wrap">
+  <div class="barra barra-1" role="search">
+    <div class="campo"><label for="catp">Categoría</label><select id="catp"></select></div>
+  </div>
+  <p class="contador" id="contador-p" aria-live="polite"></p>
 </div></section>
 <main class="wrap" id="lista-partidos"></main>
 </div>
@@ -171,11 +179,16 @@ footer b{color:var(--fg);font-weight:600}
 /* ====== DATOS DEL CLUB (copiados de la planilla "Categorias") ====== */
 const CLUB = { actualizado: "22/10/2026", porPagina: 20 };
 const CATEGORIAS = [["4ta","Cuarta"],["5ta","Quinta"],["6ta","Sexta"],["7ma","Séptima"],["8va","Octava"]];
-/* Partidos: copiados de la hoja "Partidos" */
+/* Partidos del Torneo Largo del Millón: copiados de la hoja "Partidos" */
 const PARTIDOS = [
-  {"dia": "Viernes 23", "hora": "18:00", "pareja1": "Juan Carbajal / Enzo Dolera", "pareja2": "Cesar Petit / Gaston Bourren"},
-  {"dia": "Viernes 23", "hora": "18:00", "pareja1": "Jorge Olivero / Alejandro Rosa", "pareja2": "Horacio Jerez / Carlos Lucio"},
-  {"dia": "Viernes 23", "hora": "18:30", "pareja1": "Javier Tomkowicz / Federico Trabucco", "pareja2": "Alberto Pitronaci / Marcos Barbagelatta"}
+  {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "18:00", "categoria": "6ta", "pareja1": "Jorge Olivero / Alejandro Rosa", "pareja2": "Horacio Jerez / Carlos Lucio"},
+  {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "18:00", "categoria": "7ma", "pareja1": "Juan Carbajal / Enzo Dolera", "pareja2": "Cesar Petit / Gaston Bourren"},
+  {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "18:30", "categoria": "8va", "pareja1": "Javier Tomkowicz / Federico Trabucco", "pareja2": "Alberto Pitronaci / Marcos Barbagelatta"},
+  {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "20:00", "categoria": "6ta", "pareja1": "Nicolas De Luca / Brian Barbieri", "pareja2": "Santino Stroia / Carlos Ivani"},
+  {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "20:00", "categoria": "7ma", "pareja1": "Mario Unzue / Guido Changala", "pareja2": "Sebastian Albartarelli / Joaquin Soria"},
+  {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "20:00", "categoria": "7ma", "pareja1": "Daniel Rossi / Nicolas Blanco", "pareja2": "Agustin Fabaro / Agustin Tanzi"},
+  {"fecha": "2026-10-24", "dia": "Sábado 24", "hora": "19:00", "categoria": "7ma", "pareja1": "Javier Arequipa / Patricio Martinez", "pareja2": "Javier Stroia / Javier Martinez"},
+  {"fecha": "2026-10-25", "dia": "Domingo 25", "hora": "21:30", "categoria": "5ta", "pareja1": "Francisco Klapputh / Franco Soria", "pareja2": "Sandro Gomez / Ale Casanova"}
 ];
 /* foto: dejar "" si no hay */
 const JUGADORES = [
@@ -191,16 +204,17 @@ const JUGADORES = [
   {"nombre": "Junior", "apellido": "Lorenzo", "categoria": "4ta", "foto": ""},
   {"nombre": "Rodrigo", "apellido": "Cichini", "categoria": "4ta", "foto": ""},
   {"nombre": "Guillermo", "apellido": "Navarro", "categoria": "4ta", "foto": ""},
+  {"nombre": "Matias", "apellido": "Laskowski", "categoria": "4ta", "foto": ""},
   {"nombre": "Hernan", "apellido": "Aceña", "categoria": "5ta", "foto": ""},
   {"nombre": "Mauricio", "apellido": "Aceña", "categoria": "5ta", "foto": ""},
   {"nombre": "Walter", "apellido": "Aguero", "categoria": "5ta", "foto": ""},
   {"nombre": "Daniel", "apellido": "Arce", "categoria": "5ta", "foto": ""},
   {"nombre": "Juan", "apellido": "Arguello", "categoria": "5ta", "foto": ""},
-  {"nombre": "Enzo", "apellido": "Barrionuevo", "categoria": "5ta", "foto": ""},
+  {"nombre": "Sebastian", "apellido": "Pitaluga", "categoria": "5ta", "foto": ""},
   {"nombre": "Albano", "apellido": "Brignani", "categoria": "5ta", "foto": ""},
   {"nombre": "Diego", "apellido": "Castellano", "categoria": "5ta", "foto": ""},
   {"nombre": "Nicolas", "apellido": "Chehin", "categoria": "5ta", "foto": ""},
-  {"nombre": "Maximiliano", "apellido": "Cristarela", "categoria": "5ta", "foto": ""},
+  {"nombre": "Maximiliano", "apellido": "Cristarella", "categoria": "5ta", "foto": ""},
   {"nombre": "Bruno", "apellido": "Demarchi", "categoria": "5ta", "foto": ""},
   {"nombre": "Luciano", "apellido": "Garofoli", "categoria": "5ta", "foto": ""},
   {"nombre": "Ariel", "apellido": "Gomez", "categoria": "5ta", "foto": ""},
@@ -227,6 +241,9 @@ const JUGADORES = [
   {"nombre": "Pablo", "apellido": "Nizawa", "categoria": "5ta", "foto": ""},
   {"nombre": "Hernan", "apellido": "Traficante", "categoria": "5ta", "foto": ""},
   {"nombre": "Santiago", "apellido": "Bianchi", "categoria": "5ta", "foto": ""},
+  {"nombre": "Emilio", "apellido": "Lopez", "categoria": "5ta", "foto": ""},
+  {"nombre": "Daniel", "apellido": "Campos", "categoria": "5ta", "foto": ""},
+  {"nombre": "Diego", "apellido": "Guarniolo", "categoria": "5ta", "foto": ""},
   {"nombre": "Andres", "apellido": "Olivero", "categoria": "6ta", "foto": ""},
   {"nombre": "Pedro", "apellido": "Fraire", "categoria": "6ta", "foto": ""},
   {"nombre": "Diego", "apellido": "Altamira", "categoria": "6ta", "foto": ""},
@@ -265,7 +282,7 @@ const JUGADORES = [
   {"nombre": "Cristian", "apellido": "Zerzer", "categoria": "6ta", "foto": ""},
   {"nombre": "Juan", "apellido": "Algarañaz", "categoria": "6ta", "foto": ""},
   {"nombre": "Damian", "apellido": "Capelli", "categoria": "6ta", "foto": ""},
-  {"nombre": "Nico", "apellido": "Porchetto", "categoria": "6ta", "foto": ""},
+  {"nombre": "Nicolas", "apellido": "Porchetto", "categoria": "6ta", "foto": ""},
   {"nombre": "Francisco", "apellido": "Klapputh", "categoria": "6ta", "foto": ""},
   {"nombre": "Hernan", "apellido": "Cerio", "categoria": "6ta", "foto": ""},
   {"nombre": "Alejandro", "apellido": "Mancini", "categoria": "6ta", "foto": ""},
@@ -290,6 +307,7 @@ const JUGADORES = [
   {"nombre": "Hugo", "apellido": "Aguilera", "categoria": "6ta", "foto": ""},
   {"nombre": "Horacio", "apellido": "Jerez", "categoria": "6ta", "foto": ""},
   {"nombre": "Ignacio", "apellido": "Jerez", "categoria": "6ta", "foto": ""},
+  {"nombre": "Walter", "apellido": "Montiel", "categoria": "6ta", "foto": ""},
   {"nombre": "Nico", "apellido": "(Chiche)", "categoria": "7ma", "foto": ""},
   {"nombre": "Marcelo", "apellido": "Alvarez", "categoria": "7ma", "foto": ""},
   {"nombre": "Abel", "apellido": "Arce", "categoria": "7ma", "foto": ""},
@@ -308,7 +326,7 @@ const JUGADORES = [
   {"nombre": "Gonzalo", "apellido": "Fabro", "categoria": "7ma", "foto": ""},
   {"nombre": "Joaquin", "apellido": "Ferreyra", "categoria": "7ma", "foto": ""},
   {"nombre": "Hernan", "apellido": "Flores", "categoria": "7ma", "foto": ""},
-  {"nombre": "Santiago", "apellido": "Frabicius", "categoria": "7ma", "foto": ""},
+  {"nombre": "Santiago", "apellido": "Fabricius", "categoria": "7ma", "foto": ""},
   {"nombre": "Luciano", "apellido": "Gomez", "categoria": "7ma", "foto": ""},
   {"nombre": "Santiago", "apellido": "Gonzalez", "categoria": "7ma", "foto": ""},
   {"nombre": "Luciano", "apellido": "Infante", "categoria": "7ma", "foto": ""},
@@ -328,6 +346,7 @@ const JUGADORES = [
   {"nombre": "Marcelo", "apellido": "", "categoria": "7ma", "foto": ""},
   {"nombre": "Fernando", "apellido": "Camelino", "categoria": "7ma", "foto": ""},
   {"nombre": "Daniel", "apellido": "Barbera", "categoria": "7ma", "foto": ""},
+  {"nombre": "Juan", "apellido": "De Cock", "categoria": "7ma", "foto": ""},
   {"nombre": "Tomas", "apellido": "Alvarez", "categoria": "8va", "foto": ""},
   {"nombre": "German", "apellido": "Bocca", "categoria": "8va", "foto": ""},
   {"nombre": "Jose", "apellido": "Braillard", "categoria": "8va", "foto": ""},
@@ -340,7 +359,8 @@ const JUGADORES = [
   {"nombre": "Juan Roman", "apellido": "", "categoria": "8va", "foto": ""},
   {"nombre": "Hugo", "apellido": "Angius", "categoria": "8va", "foto": ""},
   {"nombre": "Osvaldo", "apellido": "Lopez", "categoria": "8va", "foto": ""},
-  {"nombre": "Matias", "apellido": "Changala", "categoria": "8va", "foto": ""}
+  {"nombre": "Matias", "apellido": "Changala", "categoria": "8va", "foto": ""},
+  {"nombre": "Santiago", "apellido": "Lindoso", "categoria": "8va", "foto": ""}
 ];
 /* =================================================================== */
 
@@ -388,15 +408,20 @@ $("#cat").addEventListener("change", e => { state.cat=e.target.value; state.pag=
 $("#pager").addEventListener("click", e => { const b=e.target.closest("button[data-p]"); if(!b||b.disabled) return; state.pag=+b.dataset.p; render(); document.getElementById("resultados").scrollIntoView({behavior:"smooth",block:"start"}); });
 
 
+let catP="";
 function pintarPartidos(){
-  if(!PARTIDOS.length){ $("#lista-partidos").innerHTML=`<p class="vacio"><strong>Todavía no hay partidos cargados</strong>Volvé a mirar en unos días.</p>`; return; }
-  const dias=[...new Set(PARTIDOS.map(p=>p.dia))];
-  $("#lista-partidos").innerHTML = dias.map(d=>{
-    const delDia=PARTIDOS.filter(p=>p.dia===d), horas=[...new Set(delDia.map(p=>p.hora))].sort();
-    return `<section class="dia"><h2>${esc(d)}</h2>`+horas.map(h=>`<div class="turno"><time>${esc(h)}</time><div class="partidos">`+
-      delDia.filter(p=>p.hora===h).map(p=>`<article class="partido"><span class="pareja">${esc(p.pareja1)}</span><span class="vs">VS</span><span class="pareja">${esc(p.pareja2)}</span></article>`).join("")+`</div></div>`).join("")+`</section>`;
+  const lista=PARTIDOS.filter(p=>!catP||p.categoria===catP);
+  $("#contador-p").innerHTML=`<b>${lista.length}</b> ${lista.length===1?"partido":"partidos"}`;
+  if(!lista.length){ $("#lista-partidos").innerHTML=`<p class="vacio"><strong>No hay partidos cargados${catP?" en "+esc(nombreCat(catP)):""}</strong>Volvé a mirar en unos días.</p>`; return; }
+  const dias=[...new Set(lista.map(p=>p.fecha))];
+  $("#lista-partidos").innerHTML = dias.map(f=>{
+    const delDia=lista.filter(p=>p.fecha===f), horas=[...new Set(delDia.map(p=>p.hora))].sort();
+    return `<section class="dia"><h2>${esc(delDia[0].dia)}</h2>`+horas.map(h=>`<div class="turno"><time>${esc(h)}</time><div class="partidos">`+
+      delDia.filter(p=>p.hora===h).map(p=>`<article class="partido"><div class="ptop"><em class="cat">${esc(p.categoria)}</em></div><span class="pareja">${esc(p.pareja1)}</span><span class="vs">VS</span><span class="pareja">${esc(p.pareja2)}</span></article>`).join("")+`</div></div>`).join("")+`</section>`;
   }).join("");
 }
+$("#catp").innerHTML=`<option value="">Todas las categorías</option>`+CATEGORIAS.filter(([v])=>PARTIDOS.some(p=>p.categoria===v)).map(([v,t])=>`<option value="${v}">${t}</option>`).join("");
+$("#catp").addEventListener("change",e=>{ catP=e.target.value; pintarPartidos(); });
 function mostrar(v){
   const part=v==="partidos";
   $("#vista-jugadores").hidden=part; $("#vista-partidos").hidden=!part;
