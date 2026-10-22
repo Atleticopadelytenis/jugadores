@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jugadores Atlético Pádel</title>
+<meta name="description" content="Jugadores y categorías de pádel del club Atlético Pádel y Tenis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jugadores y categorías · Atlético Pádel y Tenis">
+<meta property="og:description" content="Buscá tu nombre y fijate en qué categoría estás.">
+<meta property="og:url" content="https://atleticopadelytenis.github.io/jugadores/">
+<meta property="og:image" content="https://atleticopadelytenis.github.io/jugadores/logo-share.png">
+<meta name="theme-color" content="#B8050F">
+<link rel="icon" type="image/png" href="logo-red.png">
+<style>
+html{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+/* Layout: banda roja de club arriba (logo + nombre), luego una columna angosta tipo planilla de categorías, pensada para celular */
+:root{
+  --rojo:#E30613;
+  --rojo-hondo:#B8050F;
+  --bg:#FBF8F6;
+  --surface:#FFFFFF;
+  --fg:#1C1516;
+  --muted:#6E6264;
+  --line:#ECE4E2;
+  --chip:#F3ECEA;
+  --on-rojo:#FFFFFF;
+  --aviso-bg:#FFF4D6;
+  --aviso-fg:#6B4E00;
+  --display:"Outfit","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --rojo:#FF3B45; --rojo-hondo:#C80B16;
+    --bg:#161112; --surface:#211A1B; --fg:#F6EFEE; --muted:#B3A6A7;
+    --line:#352B2C; --chip:#2C2324; --on-rojo:#FFFFFF;
+    --aviso-bg:#3A2F12; --aviso-fg:#F3D98B;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --rojo:#FF3B45; --rojo-hondo:#C80B16;
+  --bg:#161112; --surface:#211A1B; --fg:#F6EFEE; --muted:#B3A6A7;
+  --line:#352B2C; --chip:#2C2324; --on-rojo:#FFFFFF;
+  --aviso-bg:#3A2F12; --aviso-fg:#F3D98B;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* Header */
+.hero{background:var(--rojo-hondo);color:var(--on-rojo);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-40px;width:260px;height:260px;background:url(logo-white.png) center/contain no-repeat;opacity:.09;pointer-events:none}
+.hero .wrap{padding-block:28px 22px;display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+.hero img{width:64px;height:64px;flex:none}
+.hero .kicker{font-family:var(--display);font-weight:500;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin:0}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,6vw,2.2rem);line-height:1.05;margin:2px 0 0;text-wrap:balance;letter-spacing:-.01em}
+
+/* Tabs */
+.tabs{background:var(--rojo-hondo)}
+.tabs .wrap{display:flex;gap:4px}
+.tab{appearance:none;border:0;background:transparent;color:var(--on-rojo);opacity:.7;font:600 .95rem var(--display);padding:10px 14px 12px;border-radius:10px 10px 0 0;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--bg);color:var(--fg);opacity:1}
+.tab:focus-visible{outline:2px solid var(--on-rojo);outline-offset:-4px}
+
+main .wrap{padding-block:18px 40px;display:flex;flex-direction:column;gap:16px}
+
+.aviso{background:var(--aviso-bg);color:var(--aviso-fg);border-radius:10px;padding:10px 14px;font-size:.88rem}
+
+/* Search + filtros */
+.buscar{position:relative}
+.buscar svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted)}
+.buscar input{width:100%;font:500 1rem var(--body);color:var(--fg);background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px 13px 42px}
+.buscar input:focus{outline:none;border-color:var(--rojo)}
+.filtros{display:flex;flex-direction:column;gap:10px}
+.seg{display:inline-flex;background:var(--chip);border-radius:999px;padding:3px;align-self:flex-start}
+.seg button{appearance:none;border:0;background:transparent;color:var(--muted);font:600 .9rem var(--display);padding:7px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{appearance:none;flex:none;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);font:600 .9rem var(--display);padding:6px 12px;border-radius:999px;cursor:pointer;display:inline-flex;gap:6px;align-items:baseline}
+.chip small{font:500 .75rem var(--body);color:var(--muted);font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--rojo);border-color:var(--rojo);color:var(--on-rojo)}
+.chip[aria-pressed="true"] small{color:var(--on-rojo);opacity:.85}
+button:focus-visible{outline:2px solid var(--rojo);outline-offset:2px}
+
+/* Lista */
+.grupo{display:flex;flex-direction:column;gap:0}
+.grupo-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:8px 2px;border-bottom:2px solid var(--rojo)}
+.grupo-head h2{margin:0;font-family:var(--display);font-weight:800;font-size:1.25rem;letter-spacing:-.01em}
+.grupo-head h2 span{color:var(--rojo);margin-right:6px}
+.grupo-head p{margin:0;color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
+.lista{list-style:none;margin:0;padding:0}
+.jug{display:flex;align-items:center;gap:12px;padding:10px 2px;border-bottom:1px solid var(--line)}
+.avatar{width:42px;height:42px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--chip);color:var(--rojo);font:700 .9rem var(--display);overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.jug-nombre{min-width:0;flex:1;font-weight:600;overflow-wrap:anywhere}
+.jug-nombre mark{background:none;color:var(--rojo)}
+.pill{flex:none;font:700 .78rem var(--display);letter-spacing:.04em;text-transform:uppercase;color:var(--rojo);border:1.5px solid currentColor;border-radius:6px;padding:2px 7px}
+.vacio{text-align:center;color:var(--muted);padding:32px 12px}
+.vacio strong{display:block;color:var(--fg);font-family:var(--display);font-size:1.1rem;margin-bottom:4px}
+
+/* Ranking */
+.proximo{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px 20px;display:flex;flex-direction:column;gap:12px}
+.proximo .sello{font:800 .75rem var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--rojo)}
+.proximo h2{margin:0;font-family:var(--display);font-weight:800;font-size:1.5rem;line-height:1.1;text-wrap:balance}
+.proximo p{margin:0;color:var(--muted);max-width:60ch}
+.preview{border-radius:12px;border:1px dashed var(--line);overflow:hidden}
+.preview table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.preview th,.preview td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);font-size:.92rem}
+.preview th{font:600 .75rem var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.preview td.pts,.preview th.pts{text-align:right}
+.preview td.pos{font-family:var(--display);font-weight:800;color:var(--rojo);width:3em}
+.preview tr:last-child td{border-bottom:0}
+.preview caption{caption-side:top;text-align:left;padding:10px 12px;font:700 .95rem var(--display);background:var(--chip)}
+
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+footer .wrap{padding-block:18px 28px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between}
+footer b{color:var(--fg);font-weight:600}
+
+@media (prefers-reduced-motion: no-preference){
+  .jug{animation:in .25s ease both}
+  @keyframes in{from{transform:translateY(4px)}to{transform:none}}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <img src="logo-white.png" alt="Atlético Pádel y Tenis">
+    <div>
+      <p class="kicker">Atlético Pádel y Tenis</p>
+      <h1>Jugadores y categorías</h1>
+    </div>
+  </div>
+</header>
+<nav class="tabs" aria-label="Secciones">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" id="tab-jugadores" aria-selected="true" aria-controls="vista-jugadores">Jugadores</button>
+    <button class="tab" role="tab" id="tab-ranking" aria-selected="false" aria-controls="vista-ranking">Ranking 2027</button>
+  </div>
+</nav>
+
+<main>
+  <section class="wrap" id="vista-jugadores" role="tabpanel" aria-labelledby="tab-jugadores">
+    <label class="buscar" for="q">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input id="q" type="search" placeholder="Buscá tu nombre" autocomplete="off" aria-label="Buscar jugador">
+    </label>
+
+    <div class="filtros">
+      <div class="chips" role="group" aria-label="Categoría" id="cats"></div>
+    </div>
+
+    <div id="resultados" aria-live="polite"></div>
+  </section>
+
+  <section class="wrap" id="vista-ranking" role="tabpanel" aria-labelledby="tab-ranking" hidden>
+    <div class="proximo">
+      <span class="sello">Arranca con los torneos 2027</span>
+      <h2>Ranking por puntos de cada categoría</h2>
+      <p>Cuando empiecen los torneos del año que viene, acá vas a ver la tabla de cada categoría con los puntos que sume cada jugador. Así se va a ver:</p>
+      <div class="preview">
+        <table>
+          <caption>5ta categoría</caption>
+          <thead><tr><th>#</th><th>Jugador</th><th class="pts">Puntos</th></tr></thead>
+          <tbody>
+            <tr><td class="pos">1</td><td>—</td><td class="pts">—</td></tr>
+            <tr><td class="pos">2</td><td>—</td><td class="pts">—</td></tr>
+            <tr><td class="pos">3</td><td>—</td><td class="pts">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Actualizado el <b id="fecha"></b></span>
+    <span>¿Tu categoría no es la correcta? Escribinos al <b>11 7821-6795</b></span>
+  </div>
+</footer>
+
+<script>
+/* ====== DATOS DEL CLUB (copiados de la planilla "Categorias") ====== */
+const CLUB = { actualizado: "22/10/2026" };
+const CATEGORIAS = ["4ta","5ta","6ta","7ma","8va"];
+/* foto: dejar "" si no hay. puntos: se suma desde los torneos 2027 */
+const JUGADORES = [
+  {"nombre": "Gonzalo", "apellido": "Baglivo", "categoria": "4ta", "foto": ""},
+  {"nombre": "Enzo", "apellido": "Barrionuevo", "categoria": "4ta", "foto": ""},
+  {"nombre": "Daniel", "apellido": "Diaz", "categoria": "4ta", "foto": ""},
+  {"nombre": "Alan", "apellido": "Duek", "categoria": "4ta", "foto": ""},
+  {"nombre": "Diego", "apellido": "Eloaiza", "categoria": "4ta", "foto": ""},
+  {"nombre": "Damian", "apellido": "Gonzalez", "categoria": "4ta", "foto": ""},
+  {"nombre": "Agustin", "apellido": "Sosa", "categoria": "4ta", "foto": ""},
+  {"nombre": "Hernan", "apellido": "Aceña", "categoria": "5ta", "foto": ""},
+  {"nombre": "Mauricio", "apellido": "Aceña", "categoria": "5ta", "foto": ""},
+  {"nombre": "Daniel", "apellido": "Arce", "categoria": "5ta", "foto": ""},
+  {"nombre": "Juan", "apellido": "Arguello", "categoria": "5ta", "foto": ""},
+  {"nombre": "Albano", "apellido": "Brignani", "categoria": "5ta", "foto": ""},
+  {"nombre": "Diego", "apellido": "Castellano", "categoria": "5ta", "foto": ""},
+  {"nombre": "Nicolas", "apellido": "Chehin", "categoria": "5ta", "foto": ""},
+  {"nombre": "Bruno", "apellido": "Demarchi", "categoria": "5ta", "foto": ""},
+  {"nombre": "Luciano", "apellido": "Garofoli", "categoria": "5ta", "foto": ""},
+  {"nombre": "Ariel", "apellido": "Gomez", "categoria": "5ta", "foto": ""},
+  {"nombre": "Facundo", "apellido": "Luna", "categoria": "5ta", "foto": ""},
+  {"nombre": "Carlos", "apellido": "Moras", "categoria": "5ta", "foto": ""},
+  {"nombre": "Juan", "apellido": "Nasso", "categoria": "5ta", "foto": ""},
+  {"nombre": "Nelson", "apellido": "Ortiz", "categoria": "5ta", "foto": ""},
+  {"nombre": "Facundo", "apellido": "Rodriguez", "categoria": "5ta", "foto": ""},
+  {"nombre": "Fran", "apellido": "Rodriguez", "categoria": "5ta", "foto": ""},
+  {"nombre": "Sebastian", "apellido": "Underner", "categoria": "5ta", "foto": ""},
+  {"nombre": "Gaston", "apellido": "Zorrilla", "categoria": "5ta", "foto": ""}
+];
+/* =================================================================== */
+
+const $ = s => document.querySelector(s);
+const norm = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const completo = j => j.nombre+" "+j.apellido;
+const state = { q:"", cat:"Todas" };
+
+$("#fecha").textContent = CLUB.actualizado;
+
+function iniciales(j){ return (j.nombre[0]+j.apellido[0]).toUpperCase(); }
+function resaltar(t){
+  if(!state.q) return esc(t);
+  const i = norm(t).indexOf(norm(state.q));
+  if(i<0) return esc(t);
+  return esc(t.slice(0,i))+"<mark>"+esc(t.slice(i,i+state.q.length))+"</mark>"+esc(t.slice(i+state.q.length));
+}
+function filtrados(ignorarCat){
+  return JUGADORES.filter(j =>
+    (ignorarCat || state.cat==="Todas" || j.categoria===state.cat) &&
+    (!state.q || norm(completo(j)).includes(norm(state.q)))
+  );
+}
+function pintarFiltros(){
+  const base = filtrados(true);
+  $("#cats").innerHTML = ["Todas",...CATEGORIAS].map(c => {
+    const n = c==="Todas" ? base.length : base.filter(j=>j.categoria===c).length;
+    return `<button type="button" class="chip" data-cat="${c}" aria-pressed="${state.cat===c}">${c}<small>${n}</small></button>`;
+  }).join("");
+}
+function pintarLista(){
+  const lista = filtrados(false);
+  if(!lista.length){
+    $("#resultados").innerHTML = state.q
+      ? `<div class="vacio"><strong>No encontramos a "${esc(state.q)}"</strong>Revisá cómo lo escribiste o elegí otra categoría.</div>`
+      : `<div class="vacio"><strong>Todavía no hay jugadores en ${esc(state.cat)}</strong>Estamos cargando la lista. Volvé a mirar en unos días.</div>`;
+    return;
+  }
+  let html = "";
+  for(const c of CATEGORIAS){
+    const g = lista.filter(j=>j.categoria===c).sort((a,b)=>(a.apellido+a.nombre).localeCompare(b.apellido+b.nombre,"es"));
+    if(!g.length) continue;
+    html += `<section class="grupo"><div class="grupo-head"><h2><span>${c}</span>categoría</h2><p>${g.length} ${g.length===1?"jugador":"jugadores"}</p></div><ul class="lista">` +
+      g.map(j=>`<li class="jug"><span class="avatar">${j.foto?`<img src="${esc(j.foto)}" alt="" loading="lazy">`:iniciales(j)}</span><span class="jug-nombre">${resaltar(completo(j))}</span><span class="pill">${c}</span></li>`).join("") +
+      `</ul></section>`;
+  }
+  $("#resultados").innerHTML = html;
+}
+function render(){ pintarFiltros(); pintarLista(); }
+
+$("#q").addEventListener("input", e => { state.q = e.target.value.trim(); render(); });
+$("#cats").addEventListener("click", e => { const b=e.target.closest("button"); if(!b) return; state.cat=b.dataset.cat; render(); });
+
+function mostrar(vista){
+  const rank = vista==="ranking";
+  $("#vista-jugadores").hidden = rank;
+  $("#vista-ranking").hidden = !rank;
+  $("#tab-jugadores").setAttribute("aria-selected", !rank);
+  $("#tab-ranking").setAttribute("aria-selected", rank);
+}
+$("#tab-jugadores").addEventListener("click", ()=>mostrar("jugadores"));
+$("#tab-ranking").addEventListener("click", ()=>mostrar("ranking"));
+
+/* Links directos: #ranking, #4ta, #5ta, #6ta, #7ma, #8va */
+(function desdeLink(){
+  const h = decodeURIComponent((location.hash||"").slice(1)).toLowerCase();
+  if(h==="ranking") mostrar("ranking");
+  if(CATEGORIAS.includes(h)) state.cat = h;
+})();
+
+render();
+</script>
+
+</body>
+</html>
