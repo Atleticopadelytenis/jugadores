@@ -177,7 +177,7 @@ footer b{color:var(--fg);font-weight:600}
 
 <script>
 /* ====== DATOS DEL CLUB (copiados de la planilla "Categorias") ====== */
-const CLUB = { actualizado: "23/10/2026", porPagina: 20 };
+const CLUB = { actualizado: "25/10/2026", porPagina: 20 };
 const CATEGORIAS = [["4ta","Cuarta"],["5ta","Quinta"],["6ta","Sexta"],["7ma","Séptima"],["8va","Octava"]];
 /* Partidos del Torneo Largo del Millón: copiados de la hoja "Partidos" */
 const PARTIDOS = [
@@ -188,12 +188,13 @@ const PARTIDOS = [
   {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "20:00", "categoria": "6ta", "pareja1": "Daniel Rossi / Nicolas Blanco", "pareja2": "Agustin Fabaro / Agustin Tanzi"},
   {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "20:00", "categoria": "7ma", "pareja1": "Mario Unzue / Guido Changala", "pareja2": "Sebastian Albartarelli / Joaquin Soria"},
   {"fecha": "2026-10-24", "dia": "Sábado 24", "hora": "19:00", "categoria": "7ma", "pareja1": "Javier Arequipa / Patricio Martinez", "pareja2": "Javier Stroia / Javier Martinez"},
-  {"fecha": "2026-10-25", "dia": "Domingo 25", "hora": "21:30", "categoria": "5ta", "pareja1": "Francisco Klapputh / Franco Soria", "pareja2": "Sandro Gomez / Ale Casanova"}
+  {"fecha": "2026-10-25", "dia": "Domingo 25", "hora": "21:30", "categoria": "5ta", "pareja1": "Francisco Klapputh / Franco Soria", "pareja2": "Sandro Gomez / Ale Casanova"},
+  {"fecha": "2026-10-26", "dia": "Lunes 26", "hora": "17:00", "categoria": "8va", "pareja1": "Guido Changala / Agustin Ramirez", "pareja2": "Ale Mancini / Pablo Migliarini"},
+  {"fecha": "2026-10-26", "dia": "Lunes 26", "hora": "21:30", "categoria": "8va", "pareja1": "Matias Changala / Nico Figeroa", "pareja2": "Ignacio Fernandez / Juan Rios"},
+  {"fecha": "2026-10-27", "dia": "Martes 27", "hora": "21:00", "categoria": "8va", "pareja1": "Francisco Rossi / Marcos Hykalik", "pareja2": "Osvaldo Corvalan / Sergio Silva"}
 ];
 /* foto: dejar "" si no hay */
 const JUGADORES = [
-  {"nombre": "Gonzalo", "apellido": "Baglivo", "categoria": "4ta", "foto": ""},
-  {"nombre": "Enzo", "apellido": "Barrionuevo", "categoria": "4ta", "foto": ""},
   {"nombre": "Daniel", "apellido": "Diaz", "categoria": "4ta", "foto": ""},
   {"nombre": "Alan", "apellido": "Duek", "categoria": "4ta", "foto": ""},
   {"nombre": "Diego", "apellido": "Eloaiza", "categoria": "4ta", "foto": ""},
@@ -203,8 +204,6 @@ const JUGADORES = [
   {"nombre": "Facundo", "apellido": "Luna", "categoria": "4ta", "foto": ""},
   {"nombre": "Junior", "apellido": "Lorenzo", "categoria": "4ta", "foto": ""},
   {"nombre": "Rodrigo", "apellido": "Cichini", "categoria": "4ta", "foto": ""},
-  {"nombre": "Guillermo", "apellido": "Navarro", "categoria": "4ta", "foto": ""},
-  {"nombre": "Matias", "apellido": "Laskowski", "categoria": "4ta", "foto": ""},
   {"nombre": "Hernan", "apellido": "Aceña", "categoria": "5ta", "foto": ""},
   {"nombre": "Mauricio", "apellido": "Aceña", "categoria": "5ta", "foto": ""},
   {"nombre": "Walter", "apellido": "Aguero", "categoria": "5ta", "foto": ""},
@@ -243,7 +242,14 @@ const JUGADORES = [
   {"nombre": "Santiago", "apellido": "Bianchi", "categoria": "5ta", "foto": ""},
   {"nombre": "Emilio", "apellido": "Lopez", "categoria": "5ta", "foto": ""},
   {"nombre": "Daniel", "apellido": "Campos", "categoria": "5ta", "foto": ""},
-  {"nombre": "Diego", "apellido": "Guarniolo", "categoria": "5ta", "foto": ""},
+  {"nombre": "Gonzalo", "apellido": "Baglivo", "categoria": "5ta", "foto": ""},
+  {"nombre": "Mauro", "apellido": "Marcovich", "categoria": "5ta", "foto": ""},
+  {"nombre": "Enzo", "apellido": "Barrionuevo", "categoria": "5ta", "foto": ""},
+  {"nombre": "Guillermo", "apellido": "Navarro", "categoria": "5ta", "foto": ""},
+  {"nombre": "Claudio", "apellido": "Romero", "categoria": "5ta", "foto": ""},
+  {"nombre": "Hugo", "apellido": "Curuchet", "categoria": "5ta", "foto": ""},
+  {"nombre": "Santiago", "apellido": "Bodetto", "categoria": "5ta", "foto": ""},
+  {"nombre": "Hernan", "apellido": "Lanosa", "categoria": "5ta", "foto": ""},
   {"nombre": "Andres", "apellido": "Olivero", "categoria": "6ta", "foto": ""},
   {"nombre": "Pedro", "apellido": "Fraire", "categoria": "6ta", "foto": ""},
   {"nombre": "Diego", "apellido": "Altamira", "categoria": "6ta", "foto": ""},
@@ -271,7 +277,7 @@ const JUGADORES = [
   {"nombre": "Fran", "apellido": "Neuville", "categoria": "6ta", "foto": ""},
   {"nombre": "Santiago", "apellido": "Osorio", "categoria": "6ta", "foto": ""},
   {"nombre": "Adrian", "apellido": "Ovejero", "categoria": "6ta", "foto": ""},
-  {"nombre": "Jeremias", "apellido": "Piriz", "categoria": "6ta", "foto": ""},
+  {"nombre": "Joaquin", "apellido": "Ferreyra", "categoria": "6ta", "foto": ""},
   {"nombre": "Mariano", "apellido": "Sanchez", "categoria": "6ta", "foto": ""},
   {"nombre": "Sergio", "apellido": "Silvero", "categoria": "6ta", "foto": ""},
   {"nombre": "Jorge", "apellido": "Tapia", "categoria": "6ta", "foto": ""},
@@ -304,12 +310,15 @@ const JUGADORES = [
   {"nombre": "Nahuel", "apellido": "Martinez", "categoria": "6ta", "foto": ""},
   {"nombre": "Guido", "apellido": "Changala", "categoria": "6ta", "foto": ""},
   {"nombre": "German", "apellido": "Etchecopar", "categoria": "6ta", "foto": ""},
-  {"nombre": "Hugo", "apellido": "Aguilera", "categoria": "6ta", "foto": ""},
+  {"nombre": "Diego", "apellido": "Guarniolo", "categoria": "6ta", "foto": ""},
   {"nombre": "Horacio", "apellido": "Jerez", "categoria": "6ta", "foto": ""},
-  {"nombre": "Ignacio", "apellido": "Jerez", "categoria": "6ta", "foto": ""},
+  {"nombre": "Fernando", "apellido": "Bienners", "categoria": "6ta", "foto": ""},
+  {"nombre": "Alvaro", "apellido": "Gaitan", "categoria": "6ta", "foto": ""},
   {"nombre": "Walter", "apellido": "Montiel", "categoria": "6ta", "foto": ""},
-  {"nombre": "Juan", "apellido": "Alvarenga", "categoria": "6ta", "foto": ""},
-  {"nombre": "Nico", "apellido": "(Chiche)", "categoria": "7ma", "foto": ""},
+  {"nombre": "Alex", "apellido": "Graneros", "categoria": "6ta", "foto": ""},
+  {"nombre": "Matias", "apellido": "Laskowski", "categoria": "6ta", "foto": ""},
+  {"nombre": "David", "apellido": "Matheu", "categoria": "6ta", "foto": ""},
+  {"nombre": "Guillermo", "apellido": "Senna", "categoria": "7ma", "foto": ""},
   {"nombre": "Marcelo", "apellido": "Alvarez", "categoria": "7ma", "foto": ""},
   {"nombre": "Abel", "apellido": "Arce", "categoria": "7ma", "foto": ""},
   {"nombre": "Javier", "apellido": "Arequipa", "categoria": "7ma", "foto": ""},
@@ -325,9 +334,9 @@ const JUGADORES = [
   {"nombre": "Mariano", "apellido": "Circosta", "categoria": "7ma", "foto": ""},
   {"nombre": "Sabrina", "apellido": "Diaz", "categoria": "7ma", "foto": ""},
   {"nombre": "Gonzalo", "apellido": "Fabro", "categoria": "7ma", "foto": ""},
-  {"nombre": "Joaquin", "apellido": "Ferreyra", "categoria": "7ma", "foto": ""},
+  {"nombre": "Jeremias", "apellido": "Piriz", "categoria": "7ma", "foto": ""},
   {"nombre": "Hernan", "apellido": "Flores", "categoria": "7ma", "foto": ""},
-  {"nombre": "Santiago", "apellido": "Fabricius", "categoria": "7ma", "foto": ""},
+  {"nombre": "Juan", "apellido": "Alvarenga", "categoria": "7ma", "foto": ""},
   {"nombre": "Luciano", "apellido": "Gomez", "categoria": "7ma", "foto": ""},
   {"nombre": "Santiago", "apellido": "Calandra", "categoria": "7ma", "foto": ""},
   {"nombre": "Luciano", "apellido": "Infante", "categoria": "7ma", "foto": ""},
@@ -337,17 +346,20 @@ const JUGADORES = [
   {"nombre": "Matias", "apellido": "Meza", "categoria": "7ma", "foto": ""},
   {"nombre": "Juan", "apellido": "Nicola", "categoria": "7ma", "foto": ""},
   {"nombre": "Claudio", "apellido": "Peralta", "categoria": "7ma", "foto": ""},
-  {"nombre": "Santiago", "apellido": "Perez", "categoria": "7ma", "foto": ""},
+  {"nombre": "Gaston", "apellido": "Parodi", "categoria": "7ma", "foto": ""},
   {"nombre": "Segundo", "apellido": "Ponce de Leon", "categoria": "7ma", "foto": ""},
   {"nombre": "Thiago", "apellido": "Rodriguez", "categoria": "7ma", "foto": ""},
   {"nombre": "Eusebio", "apellido": "Spomer", "categoria": "7ma", "foto": ""},
   {"nombre": "Walter", "apellido": "Spomer", "categoria": "7ma", "foto": ""},
   {"nombre": "Javier", "apellido": "Stroia", "categoria": "7ma", "foto": ""},
-  {"nombre": "Franco", "apellido": "", "categoria": "7ma", "foto": ""},
+  {"nombre": "Franco", "apellido": "Fortabat", "categoria": "7ma", "foto": ""},
   {"nombre": "Marcelo", "apellido": "", "categoria": "7ma", "foto": ""},
   {"nombre": "Daniel", "apellido": "Barbera", "categoria": "7ma", "foto": ""},
   {"nombre": "Juan", "apellido": "De Cock", "categoria": "7ma", "foto": ""},
   {"nombre": "Gonzalo", "apellido": "Calandra", "categoria": "7ma", "foto": ""},
+  {"nombre": "Hugo", "apellido": "Aguilera", "categoria": "7ma", "foto": ""},
+  {"nombre": "Ignacio", "apellido": "Jerez", "categoria": "7ma", "foto": ""},
+  {"nombre": "Carlos", "apellido": "Ivani", "categoria": "7ma", "foto": ""},
   {"nombre": "Tomas", "apellido": "Alvarez", "categoria": "8va", "foto": ""},
   {"nombre": "German", "apellido": "Bocca", "categoria": "8va", "foto": ""},
   {"nombre": "Jose", "apellido": "Braillard", "categoria": "8va", "foto": ""},
@@ -362,7 +374,28 @@ const JUGADORES = [
   {"nombre": "Osvaldo", "apellido": "Lopez", "categoria": "8va", "foto": ""},
   {"nombre": "Matias", "apellido": "Changala", "categoria": "8va", "foto": ""},
   {"nombre": "Santiago", "apellido": "Lindoso", "categoria": "8va", "foto": ""},
-  {"nombre": "Fernando", "apellido": "Camelino", "categoria": "8va", "foto": ""}
+  {"nombre": "Fernando", "apellido": "Camelino", "categoria": "8va", "foto": ""},
+  {"nombre": "Santiago", "apellido": "Fabricius", "categoria": "8va", "foto": ""},
+  {"nombre": "Nico", "apellido": "(Chiche)", "categoria": "8va", "foto": ""},
+  {"nombre": "Santiago", "apellido": "Perez", "categoria": "8va", "foto": ""},
+  {"nombre": "Francisco", "apellido": "Rossi", "categoria": "8va", "foto": ""},
+  {"nombre": "Marcos", "apellido": "Hykalik", "categoria": "8va", "foto": ""},
+  {"nombre": "Sergio", "apellido": "Silva", "categoria": "8va", "foto": ""},
+  {"nombre": "Marcos", "apellido": "Barbagelatta", "categoria": "8va", "foto": ""},
+  {"nombre": "Alberto", "apellido": "Pitronaci", "categoria": "8va", "foto": ""},
+  {"nombre": "Javier", "apellido": "Tomkowicz", "categoria": "8va", "foto": ""},
+  {"nombre": "Federico", "apellido": "Trabucco", "categoria": "8va", "foto": ""},
+  {"nombre": "Lazaro", "apellido": "Donadio", "categoria": "8va", "foto": ""},
+  {"nombre": "Leo", "apellido": "Pontacuarto", "categoria": "8va", "foto": ""},
+  {"nombre": "Walter", "apellido": "Brito", "categoria": "8va", "foto": ""},
+  {"nombre": "Victor", "apellido": "Herzkovich", "categoria": "8va", "foto": ""},
+  {"nombre": "Raul", "apellido": "Bianco", "categoria": "8va", "foto": ""},
+  {"nombre": "Fernando", "apellido": "López", "categoria": "8va", "foto": ""},
+  {"nombre": "Francisco", "apellido": "La Greca", "categoria": "8va", "foto": ""},
+  {"nombre": "Juan Pablo", "apellido": "Guagliardi", "categoria": "8va", "foto": ""},
+  {"nombre": "Carlos", "apellido": "Maran", "categoria": "8va", "foto": ""},
+  {"nombre": "Carlos", "apellido": "Muñoz", "categoria": "8va", "foto": ""},
+  {"nombre": "Matias", "apellido": "Scifo", "categoria": "8va", "foto": ""}
 ];
 /* =================================================================== */
 
@@ -411,8 +444,9 @@ $("#pager").addEventListener("click", e => { const b=e.target.closest("button[da
 
 
 let catP="";
+const d0=new Date(), HOY=[d0.getFullYear(),String(d0.getMonth()+1).padStart(2,"0"),String(d0.getDate()).padStart(2,"0")].join("-");
 function pintarPartidos(){
-  const lista=PARTIDOS.filter(p=>!catP||p.categoria===catP);
+  const lista=PARTIDOS.filter(p=>p.fecha>=HOY&&(!catP||p.categoria===catP));
   $("#contador-p").innerHTML=`<b>${lista.length}</b> ${lista.length===1?"partido":"partidos"}`;
   if(!lista.length){ $("#lista-partidos").innerHTML=`<p class="vacio"><strong>No hay partidos cargados${catP?" en "+esc(nombreCat(catP)):""}</strong>Volvé a mirar en unos días.</p>`; return; }
   const dias=[...new Set(lista.map(p=>p.fecha))];
