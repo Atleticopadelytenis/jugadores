@@ -177,18 +177,19 @@ footer b{color:var(--fg);font-weight:600}
 
 <script>
 /* ====== DATOS DEL CLUB (copiados de la planilla "Categorias") ====== */
-const CLUB = { actualizado: "25/10/2026", porPagina: 20 };
+const CLUB = { actualizado: "26/10/2026", porPagina: 20 };
 const CATEGORIAS = [["4ta","Cuarta"],["5ta","Quinta"],["6ta","Sexta"],["7ma","Séptima"],["8va","Octava"]];
 /* Partidos del Torneo Largo del Millón: copiados de la hoja "Partidos" */
 const PARTIDOS = [
-  {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "18:00", "categoria": "7ma", "pareja1": "Juan Carbajal / Enzo Dolera", "pareja2": "Cesar Petit / Gaston Bourren"},
-  {"fecha": "2026-10-23", "dia": "Viernes 23", "hora": "20:00", "categoria": "7ma", "pareja1": "Mario Unzue / Guido Changala", "pareja2": "Sebastian Albartarelli / Joaquin Soria"},
   {"fecha": "2026-10-24", "dia": "Sábado 24", "hora": "19:00", "categoria": "7ma", "pareja1": "Javier Arequipa / Patricio Martinez", "pareja2": "Javier Stroia / Javier Martinez"},
   {"fecha": "2026-10-25", "dia": "Domingo 25", "hora": "21:30", "categoria": "5ta", "pareja1": "Francisco Klapputh / Franco Soria", "pareja2": "Sandro Gomez / Ale Casanova"},
-  {"fecha": "2026-10-26", "dia": "Lunes 26", "hora": "17:00", "categoria": "5ta", "pareja1": "Guido Changala / Agustin Ramirez", "pareja2": "Ale Mancini / Pablo Migliarini"},
-  {"fecha": "2026-10-26", "dia": "Lunes 26", "hora": "21:30", "categoria": "8va", "pareja1": "Matias Changala / Nico Figeroa", "pareja2": "Ignacio Fernandez / Juan Rios"},
   {"fecha": "2026-10-27", "dia": "Martes 27", "hora": "21:00", "categoria": "8va", "pareja1": "Francisco Rossi / Marcos Hykalik", "pareja2": "Osvaldo Corvalan / Sergio Silva"},
-  {"fecha": "2026-10-28", "dia": "Miércoles 28", "hora": "21:00", "categoria": "5ta", "pareja1": "Hernan Lanosa / Cristian Lopez", "pareja2": "Sergio Silvero / Gabriel Miño"}
+  {"fecha": "2026-10-27", "dia": "Martes 27", "hora": "22:30", "categoria": "7ma", "pareja1": "Cesar Petit / Gastón Bourren", "pareja2": "Facundo Fragola / Agustin Perelman"},
+  {"fecha": "2026-10-28", "dia": "Miércoles 28", "hora": "21:00", "categoria": "5ta", "pareja1": "Walter Aguero / Axel Morales", "pareja2": "Sergio Silvero / Gabriel Miño"},
+  {"fecha": "2026-10-28", "dia": "Miércoles 28", "hora": "21:00", "categoria": "7ma", "pareja1": "Lucas Lopez / Fede Ligorria", "pareja2": "Gonzalo Fabro / Gonzalo Calandra"},
+  {"fecha": "2026-10-29", "dia": "Jueves 29", "hora": "18:00", "categoria": "8va", "pareja1": "Matias Changala / Nico Figeroa", "pareja2": "Ignacio Fernandez / Juan Rios"},
+  {"fecha": "2026-10-29", "dia": "Jueves 29", "hora": "21:30", "categoria": "6ta", "pareja1": "Agustin Fabaro / Agustin Tanzi", "pareja2": "Walter Montiel / Martin Jurado"},
+  {"fecha": "2026-10-30", "dia": "Viernes 30", "hora": "19:00", "categoria": "7ma", "pareja1": "Mario Unzue / Guido Changala", "pareja2": "Javier Arequipa / Patricio Martinez"}
 ];
 /* foto: dejar "" si no hay */
 const JUGADORES = [
@@ -201,6 +202,7 @@ const JUGADORES = [
   {"nombre": "Facundo", "apellido": "Luna", "categoria": "4ta", "foto": ""},
   {"nombre": "Junior", "apellido": "Lorenzo", "categoria": "4ta", "foto": ""},
   {"nombre": "Rodrigo", "apellido": "Cichini", "categoria": "4ta", "foto": ""},
+  {"nombre": "Segundo", "apellido": "Sigmaringo", "categoria": "4ta", "foto": ""},
   {"nombre": "Hernan", "apellido": "Aceña", "categoria": "5ta", "foto": ""},
   {"nombre": "Mauricio", "apellido": "Aceña", "categoria": "5ta", "foto": ""},
   {"nombre": "Walter", "apellido": "Aguero", "categoria": "5ta", "foto": ""},
@@ -247,6 +249,7 @@ const JUGADORES = [
   {"nombre": "Hugo", "apellido": "Curuchet", "categoria": "5ta", "foto": ""},
   {"nombre": "Santiago", "apellido": "Bodetto", "categoria": "5ta", "foto": ""},
   {"nombre": "Hernan", "apellido": "Lanosa", "categoria": "5ta", "foto": ""},
+  {"nombre": "Gabriel", "apellido": "Ruso", "categoria": "5ta", "foto": ""},
   {"nombre": "Andres", "apellido": "Olivero", "categoria": "6ta", "foto": ""},
   {"nombre": "Pedro", "apellido": "Fraire", "categoria": "6ta", "foto": ""},
   {"nombre": "Diego", "apellido": "Altamira", "categoria": "6ta", "foto": ""},
@@ -267,7 +270,7 @@ const JUGADORES = [
   {"nombre": "Luis", "apellido": "Lopez", "categoria": "6ta", "foto": ""},
   {"nombre": "Rodrigo", "apellido": "Losada", "categoria": "6ta", "foto": ""},
   {"nombre": "Carlos", "apellido": "Lucio", "categoria": "6ta", "foto": ""},
-  {"nombre": "Bochi", "apellido": "Marino", "categoria": "6ta", "foto": ""},
+  {"nombre": "", "apellido": "Carlos", "categoria": "6ta", "foto": ""},
   {"nombre": "Pablo", "apellido": "Migliarini", "categoria": "6ta", "foto": ""},
   {"nombre": "Gallego", "apellido": "Molina", "categoria": "6ta", "foto": ""},
   {"nombre": "Jorge", "apellido": "Navarro", "categoria": "6ta", "foto": ""},
@@ -360,6 +363,9 @@ const JUGADORES = [
   {"nombre": "Carlos", "apellido": "Ivani", "categoria": "7ma", "foto": ""},
   {"nombre": "Gabriel", "apellido": "Miranda", "categoria": "7ma", "foto": ""},
   {"nombre": "Jose", "apellido": "Negro", "categoria": "7ma", "foto": ""},
+  {"nombre": "Eduardo", "apellido": "Barello", "categoria": "7ma", "foto": ""},
+  {"nombre": "Gaston", "apellido": "Sigmaringo", "categoria": "7ma", "foto": ""},
+  {"nombre": "Serafin", "apellido": "Sigmaringo", "categoria": "7ma", "foto": ""},
   {"nombre": "Tomas", "apellido": "Alvarez", "categoria": "8va", "foto": ""},
   {"nombre": "German", "apellido": "Bocca", "categoria": "8va", "foto": ""},
   {"nombre": "Jose", "apellido": "Braillard", "categoria": "8va", "foto": ""},
@@ -396,7 +402,13 @@ const JUGADORES = [
   {"nombre": "Carlos", "apellido": "Maran", "categoria": "8va", "foto": ""},
   {"nombre": "Carlos", "apellido": "Muñoz", "categoria": "8va", "foto": ""},
   {"nombre": "Matias", "apellido": "Scifo", "categoria": "8va", "foto": ""},
-  {"nombre": "Luciano", "apellido": "Santaliz", "categoria": "8va", "foto": ""}
+  {"nombre": "Luciano", "apellido": "Santaliz", "categoria": "8va", "foto": ""},
+  {"nombre": "Gonzalo", "apellido": "Casado", "categoria": "8va", "foto": ""},
+  {"nombre": "Matias", "apellido": "Eloaiza", "categoria": "8va", "foto": ""},
+  {"nombre": "Ariel", "apellido": "De Cock", "categoria": "8va", "foto": ""},
+  {"nombre": "Mario", "apellido": "Unzue", "categoria": "8va", "foto": ""},
+  {"nombre": "Valentino", "apellido": "Simionato", "categoria": "8va", "foto": ""},
+  {"nombre": "Joaqiun", "apellido": "Thoss", "categoria": "8va", "foto": ""}
 ];
 /* =================================================================== */
 
