@@ -213,17 +213,21 @@ const CATEGORIAS = [["4ta","Cuarta"],["5ta","Quinta"],["6ta","Sexta"],["7ma","S�
 /* Partidos del Torneo Largo del Millón: copiados de la hoja "Partidos" */
 const PARTIDOS = [
   {"fecha": "2026-11-02", "dia": "Lunes 2", "hora": "17:00", "categoria": "8va", "pareja1": "Carlos Maran / Carlos Muñoz", "pareja2": "Francisco La Greca / Juan Pablo Guagliardi", "fase": ""},
+  {"fecha": "2026-11-02", "dia": "Lunes 2", "hora": "21:30", "categoria": "5ta", "pareja1": "Nico Chehin / Luciano Perroni", "pareja2": "Nelson Ortiz / Gaston Zorrilla", "fase": ""},
   {"fecha": "2026-11-02", "dia": "Lunes 2", "hora": "21:30", "categoria": "8va", "pareja1": "Matias Changala / Nicolas Figeroa", "pareja2": "Sergio Silva / Osvaldo Corvalan", "fase": ""},
   {"fecha": "2026-11-03", "dia": "Martes 3", "hora": "17:00", "categoria": "5ta", "pareja1": "Javi Korhasanoglu / Joaquin Ferreyra", "pareja2": "Bruno Demarchi / Juan Barberia", "fase": ""},
   {"fecha": "2026-11-03", "dia": "Martes 3", "hora": "21:00", "categoria": "7ma", "pareja1": "Tobias Brussola / Tomas Castano", "pareja2": "Jose Negro / Gabriel Miranda", "fase": ""},
   {"fecha": "2026-11-04", "dia": "Miércoles 4", "hora": "18:00", "categoria": "6ta", "pareja1": "Lucas Lopez / Fede Ligorria", "pareja2": "Javier Stroia / Javier Martinez", "fase": ""},
+  {"fecha": "2026-11-04", "dia": "Miércoles 4", "hora": "18:00", "categoria": "7ma", "pareja1": "Fede Ligorria / Lucas Lopez", "pareja2": "Jose Negro / Gabriel Miranda", "fase": ""},
   {"fecha": "2026-11-04", "dia": "Miércoles 4", "hora": "21:00", "categoria": "5ta", "pareja1": "Gabriel Miño / Sergio Silvero", "pareja2": "Hernan Lanosa / Cristian Lopez", "fase": ""},
+  {"fecha": "2026-11-04", "dia": "Miércoles 4", "hora": "21:00", "categoria": "6ta", "pareja1": "Mati Etchart / Agustin Bulani", "pareja2": "Gaston Sanchez / Sergio Silvero", "fase": "16avos de final"},
   {"fecha": "2026-11-05", "dia": "Jueves 5", "hora": "18:00", "categoria": "6ta", "pareja1": "Sebastian Gomez / Pablo Marino", "pareja2": "Carlos Marino / Pablo Migliarini", "fase": ""},
   {"fecha": "2026-11-05", "dia": "Jueves 5", "hora": "18:00", "categoria": "6ta", "pareja1": "Daniel Buezas / German Etchecopar", "pareja2": "Leo Molina / Diego Rosa", "fase": "Octavos de final"},
   {"fecha": "2026-11-05", "dia": "Jueves 5", "hora": "21:30", "categoria": "5ta", "pareja1": "Santiago Bianchi / Diego Guarniolo", "pareja2": "Nicolas Chein / Tano", "fase": ""},
   {"fecha": "2026-11-06", "dia": "Viernes 6", "hora": "18:30", "categoria": "5ta", "pareja1": "Sebastian Underner / Pablo Marino", "pareja2": "Juan Barberia / Bruno Demarchi", "fase": ""},
   {"fecha": "2026-11-06", "dia": "Viernes 6", "hora": "20:00", "categoria": "6ta", "pareja1": "Daniel Rossi / Nico Blanco", "pareja2": "Nico de Luca / Brian Barbieris", "fase": "Octavos de final"},
-  {"fecha": "2026-11-06", "dia": "Viernes 6", "hora": "20:00", "categoria": "7ma", "pareja1": "Javier Stroia / Javier Martinez", "pareja2": "Sebastian Albertarelli / Joaquin Soria", "fase": ""}
+  {"fecha": "2026-11-06", "dia": "Viernes 6", "hora": "20:00", "categoria": "7ma", "pareja1": "Javier Stroia / Javier Martinez", "pareja2": "Sebastian Albertarelli / Joaquin Soria", "fase": ""},
+  {"fecha": "2026-11-08", "dia": "Domingo 8", "hora": "17:00", "categoria": "8va", "pareja1": "Fer Lopez / Raul Bianco", "pareja2": "Walter Brito / Victor Herzkovich", "fase": ""}
 ];
 /* Cronograma semanal: copiado de la hoja "CRONOGRAMA" (dia: 0 = lunes) */
 const CRONOGRAMA = [
@@ -396,7 +400,7 @@ const JUGADORES = [
   {"nombre": "Leo", "apellido": "Mansilla", "categoria": "7ma", "foto": ""},
   {"nombre": "Ivan", "apellido": "Mariñas", "categoria": "7ma", "foto": ""},
   {"nombre": "Matias", "apellido": "Meza", "categoria": "7ma", "foto": ""},
-  {"nombre": "Juan", "apellido": "Nicola", "categoria": "7ma", "foto": ""},
+  {"nombre": "Elias", "apellido": "Benítez", "categoria": "7ma", "foto": ""},
   {"nombre": "Claudio", "apellido": "Peralta", "categoria": "7ma", "foto": ""},
   {"nombre": "Gaston", "apellido": "Parodi", "categoria": "7ma", "foto": ""},
   {"nombre": "Segundo", "apellido": "Ponce de Leon", "categoria": "7ma", "foto": ""},
@@ -425,7 +429,6 @@ const JUGADORES = [
   {"nombre": "Jerónimo", "apellido": "Martinez", "categoria": "7ma", "foto": ""},
   {"nombre": "Lisandro", "apellido": "Callaba", "categoria": "7ma", "foto": ""},
   {"nombre": "Tomas", "apellido": "Echeverria", "categoria": "7ma", "foto": ""},
-  {"nombre": "Elias", "apellido": "Benítez", "categoria": "7ma", "foto": ""},
   {"nombre": "Tomas", "apellido": "Alvarez", "categoria": "8va", "foto": ""},
   {"nombre": "German", "apellido": "Bocca", "categoria": "8va", "foto": ""},
   {"nombre": "Jose", "apellido": "Braillard", "categoria": "8va", "foto": ""},
@@ -477,7 +480,8 @@ const JUGADORES = [
   {"nombre": "Ignacio", "apellido": "Capponi", "categoria": "8va", "foto": ""},
   {"nombre": "Gerardo", "apellido": "Cicerone", "categoria": "8va", "foto": ""},
   {"nombre": "Julian", "apellido": "Chersich", "categoria": "8va", "foto": ""},
-  {"nombre": "Juan Manuel", "apellido": "Gimenez", "categoria": "8va", "foto": ""}
+  {"nombre": "Juan Manuel", "apellido": "Gimenez", "categoria": "8va", "foto": ""},
+  {"nombre": "Juan", "apellido": "Nicola", "categoria": "8va", "foto": ""}
 ];
 /* =================================================================== */
 
