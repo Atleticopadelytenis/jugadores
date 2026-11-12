@@ -109,6 +109,27 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .act b{font:700 1.05rem/1.25 var(--display);overflow-wrap:anywhere}
 .t-ent{--c:var(--t-ent)} .t-can{--c:var(--t-can)} .t-tor{--c:var(--t-tor)} .t-otro{--c:var(--muted)}
 @media (max-width:560px){.crono-dia{grid-template-columns:1fr;gap:10px}}
+.tabs .wrap{overflow-x:auto;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tabs a{white-space:nowrap}
+.llave{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:16px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
+.ronda{display:flex;flex-direction:column;gap:12px;scroll-snap-align:start;min-width:0}
+.ronda>h2{margin:0;font:800 1.05rem var(--display);text-transform:uppercase;letter-spacing:.06em;padding-bottom:6px;border-bottom:2px solid var(--rojo)}
+.ronda>h2 small{font:600 .78rem var(--body);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:6px}
+.ronda-cuerpo{display:flex;flex-direction:column;gap:12px}
+.cruce{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cruce .lado{display:flex;align-items:center;gap:8px;padding:9px 12px;font:600 .95rem/1.25 var(--display);min-width:0}
+.cruce .lado+.lado{border-top:1px solid var(--line)}
+.cruce .lado span{flex:1;min-width:0;overflow-wrap:anywhere}
+.cruce .lado.gana{background:var(--soft)}
+.cruce .lado.gana span{font-weight:800}
+.cruce .lado.gana::after{content:"Pasa";font:700 .66rem var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--on-rojo);background:var(--t-can);padding:2px 6px;border-radius:5px}
+.cruce .lado.pierde{color:var(--muted)}
+.cruce .lado.pierde span{text-decoration:line-through;text-decoration-color:var(--line)}
+.cruce .lado.tbd{color:var(--muted);font-style:italic;font-weight:500}
+.cruce .cuando{display:block;padding:6px 12px;border-top:1px dashed var(--line);font:700 .72rem var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--rojo)}
+.campeon{background:var(--rojo);color:var(--on-rojo);border-radius:12px;padding:16px;font:800 1.1rem/1.3 var(--display)}
+.llave-nota{margin:14px 2px 0;color:var(--muted);font-size:.9rem}
 .contacto{margin-top:40px;background:var(--rojo-hondo);color:var(--on-rojo)}
 .contacto .wrap{padding-block:32px;display:flex;flex-direction:column;gap:18px}
 .contacto h2{margin:0;font:800 1.6rem/1.1 var(--display);letter-spacing:-.01em}
@@ -131,6 +152,7 @@ footer b{color:var(--fg);font-weight:600}
 <nav class="tabs" aria-label="Secciones"><div class="wrap">
   <a href="#jugadores" data-vista="jugadores">Jugadores</a>
   <a href="#partidos" data-vista="partidos">Partidos</a>
+  <a href="#llaves" data-vista="llaves">Llaves</a>
   <a href="#cronograma" data-vista="cronograma">Cronograma</a>
 </div></nav>
 
@@ -168,6 +190,18 @@ footer b{color:var(--fg);font-weight:600}
   <p class="contador" id="contador-p" aria-live="polite"></p>
 </div></section>
 <main class="wrap" id="lista-partidos"></main>
+</div>
+
+<div id="vista-llaves" hidden>
+<section class="intro"><div class="wrap">
+  <p class="eyebrow">Torneo Largo del Millón</p>
+  <h1>Llaves</h1>
+  <p class="sub">Los cruces de cada categoría y quién va pasando de ronda.</p>
+</div></section>
+<section class="filtros"><div class="wrap">
+  <div class="chips" id="cats-llave" role="group" aria-label="Categoría"></div>
+</div></section>
+<main class="wrap" id="llave"></main>
 </div>
 
 <div id="vista-cronograma" hidden>
@@ -245,6 +279,8 @@ const CRONOGRAMA = [
   {"dia": 6, "desde": "10:00", "hasta": "16:00", "tipo": "Cancha abierta", "detalle": "6ta/7ma"},
   {"dia": 6, "desde": "19:00", "hasta": "", "tipo": "Torneo", "detalle": "Caballeros 5TA/6TA"}
 ];
+/* Llaves del Torneo Largo del Millón: copiadas de la hoja "CRUCES" */
+const LLAVES = [{"categoria": "5ta", "rondas": [{"nombre": "16avos", "partidos": [{"a": ["Gabriel Miño", "Sergio Silvero"], "b": ["Eugenio Colombini", "Juani García Haymes"], "ganador": null}]}, {"nombre": "Octavos", "partidos": [{"a": ["Sandro Gomez", "Ale Casanova"], "b": null, "ganador": null}, {"a": ["Nelson", "Zorri"], "b": ["Juan Barberia", "Bruno Demarchi"], "ganador": null}, {"a": ["Fer Cardenas", "Fede Arias"], "b": ["Hernan Lanosa", "Cristian Lopez"], "ganador": null}, {"a": ["Pablo Migliarini", "Ale Mancini"], "b": ["Santi Bianchi", "Diego Guarniolo"], "ganador": null}, {"a": ["Walter Aguero", "Axel Morales"], "b": ["David Mateu", "Santi Zarate"], "ganador": null}, {"a": ["Joaco Ferreyra", "Javier Khorasanoglu"], "b": ["Alex Graneros", "Kevin Ramirez"], "ganador": null}, {"a": ["Seba Underner", "Pablo Marino"], "b": ["Hugo Curuchet", "Dani Campos"], "ganador": null}, {"a": ["Nico Chehin", "Tano"], "b": ["Francisco Klapputh", "Franco Killer Soria"], "ganador": null}]}], "proxima": "Cuartos"}, {"categoria": "6ta", "rondas": [{"nombre": "16avos", "partidos": [{"a": ["Santi Stroia", "Carlos"], "b": ["Jorge Andrés Olivero", "Alejandro Rosa"], "ganador": "b"}, {"a": ["Matías Etchart", "Agustín Buiani"], "b": ["Gaston Ezequiel Sanchez", "Sergio Gabriel Silvero"], "ganador": "b"}]}, {"nombre": "Octavos", "partidos": [{"a": ["Pablo Migliarini", "Carlos Marino"], "b": ["Jorge Andres Olivero", "Alejandro Rosa"], "ganador": null}, {"a": ["Walter Montiel", "Martin Jurado"], "b": ["Gaston Ezequiel Sanchez", "Sergio Gabriel Silvero"], "ganador": null}, {"a": ["Etchecooar Germán", "Buezas Daniel"], "b": ["Diego Rosa", "Leo Molina"], "ganador": "b"}, {"a": ["Alberto Toledo", "Matias Gonzalez"], "b": ["Javier Martinez", "Javier Stroia"], "ganador": null}, {"a": ["Tobi Brun", "Santi Milistrelli"], "b": ["Pablo Marino", "Sebastian Gomez"], "ganador": null}, {"a": ["Nicolás de Luca", "Brian Barbieris"], "b": ["Daniel Rossi", "Nicolas Blanco"], "ganador": "a"}, {"a": ["Lucas Lopez", "Fede Ligorria"], "b": ["Ariel Malagoli", "Cristian Zerzer"], "ganador": null}, {"a": ["Agustin Fabaro", "Agustin Tanzi"], "b": ["Horacio Jerez", "Carly Lucio"], "ganador": "b"}]}, {"nombre": "Cuartos", "partidos": [{"a": ["Diego Rosa", "Leo Molina"], "b": null, "ganador": null}, {"a": ["Nicolás de Luca", "Brian Barbieris"], "b": null, "ganador": null}, {"a": ["Horacio Jerez", "Carly Lucio"], "b": null, "ganador": null}]}], "proxima": "Semifinal"}, {"categoria": "7ma", "rondas": [{"nombre": "Octavos", "partidos": [{"a": ["Sebastian Albertarelli", "Joaquin Soria"], "b": ["Cesar Petit", "Gaston Bourren"], "ganador": null}, {"a": ["Lucas Lopez", "Fede Ligorria"], "b": ["Gabriel Miranda", "Jose Negro"], "ganador": "b"}, {"a": ["Tobias Bussola", "Tomas Castano"], "b": ["Javier Stroia", "Javier Martinez"], "ganador": "b"}, {"a": ["Juan Marcos Carabajal", "Enzo Dolera"], "b": ["Carlos Gaston Rodriguez", "Ariel Vergia"], "ganador": "a"}]}, {"nombre": "Cuartos", "partidos": [{"a": ["Gonzalo Fabro", "Gonzalo Calandra"], "b": null, "ganador": null}, {"a": ["Javier Arequipa", "Patricio Martinez"], "b": ["Gabriel Miranda", "Jose Negro"], "ganador": null}, {"a": ["Facundo Fragola", "Agustin Perelman"], "b": ["Javier Stroia", "Javier Martinez"], "ganador": null}, {"a": ["Guillermo Sena", "Fernando Bienneres"], "b": ["Juan Marcos Carabajal", "Enzo Dolera"], "ganador": "a"}]}, {"nombre": "Semifinal", "partidos": [{"a": ["Guillermo Sena", "Fernando Bienneres"], "b": null, "ganador": null}]}], "proxima": "Final"}, {"categoria": "8va", "rondas": [{"nombre": "Octavos", "partidos": [{"a": ["Matias Scifo", "Fernando Camelino"], "b": ["Raul Bianco", "Fernando Ramón López"], "ganador": "a"}, {"a": ["Walter Brito", "Victor Herzkovich"], "b": ["Carlos Maran", "Carlos Ariel Muñoz"], "ganador": null}, {"a": ["Javier Tomkowicz", "Federico Trabucco"], "b": null, "ganador": null}]}, {"nombre": "Cuartos", "partidos": [{"a": ["Matias Scifo", "Fernando Camelino"], "b": ["Alberto Pitronaci", "Marcos Barbagelatta"], "ganador": null}, {"a": ["Lazaro", "Leo Puntacarlo"], "b": null, "ganador": null}, {"a": ["Francisco La Greca", "Juan Pablo Guagliardi"], "b": null, "ganador": null}]}], "proxima": "Semifinal"}];
 /* foto: dejar "" si no hay */
 const JUGADORES = [
   {"nombre": "Daniel", "apellido": "Diaz", "categoria": "4ta", "foto": ""},
@@ -575,14 +611,37 @@ function pintarCrono(){
 }
 $("#tipos").addEventListener("click",e=>{const b=e.target.closest("button[data-t]"); if(!b) return; tipoC=b.dataset.t; pintarCrono();});
 pintarCrono();
+let catL="";
+const apellidos = p => new Set(p.map(n=>norm(n).trim().split(/\s+/).pop()));
+const mismaPareja = (p, txt) => { const a=apellidos(p), b=new Set(txt.split(" / ").map(n=>norm(n).trim().split(/\s+/).pop())); return [...a].every(x=>b.has(x)); };
+function cuandoSe(c, cat){
+  if(!c.b) return null;
+  const m=PARTIDOS.find(p=>p.fecha>=HOY && ((mismaPareja(c.a,p.pareja1)&&mismaPareja(c.b,p.pareja2))||(mismaPareja(c.a,p.pareja2)&&mismaPareja(c.b,p.pareja1))));
+  return m?`${m.dia} · ${m.hora}`:null;
+}
+function pintarLlaves(){
+  const cats=LLAVES.map(l=>l.categoria);
+  if(!catL||!cats.includes(catL)) catL=cats[0]||"";
+  $("#cats-llave").innerHTML=cats.map(c=>`<button type="button" class="chip" data-c="${esc(c)}" aria-pressed="${c===catL}">${esc(nombreCat(c))}</button>`).join("");
+  const l=LLAVES.find(x=>x.categoria===catL);
+  if(!l){ $("#llave").innerHTML=`<p class="vacio"><strong>Todavía no hay llaves cargadas</strong>Volvé a mirar en unos días.</p>`; return; }
+  const lado=(p,cls)=>p?`<div class="lado ${cls}"><span>${esc(p.join(" / "))}</span></div>`:`<div class="lado tbd"><span>A definir</span></div>`;
+  $("#llave").innerHTML=`<div class="llave">`+l.rondas.map(r=>{
+    if(r.nombre==="Campeón") return `<section class="ronda"><h2>Campeón</h2><div class="ronda-cuerpo"><div class="campeon">${esc(r.partidos[0].a.join(" / "))}</div></div></section>`;
+    return `<section class="ronda"><h2>${esc(r.nombre)}<small>${r.partidos.length} ${r.partidos.length===1?"cruce":"cruces"}</small></h2><div class="ronda-cuerpo">`+
+      r.partidos.map(c=>{const w=c.ganador, cu=cuandoSe(c); return `<article class="cruce">${lado(c.a,w==="a"?"gana":w==="b"?"pierde":"")}${lado(c.b,w==="b"?"gana":w==="a"?"pierde":"")}${cu?`<span class="cuando">${esc(cu)}</span>`:""}</article>`}).join("")+`</div></section>`;
+  }).join("")+`</div>`+(l.proxima?`<p class="llave-nota">Próxima ronda: ${esc(l.proxima)}. Se completa a medida que se juegan los partidos.</p>`:"");
+}
+$("#cats-llave").addEventListener("click",e=>{const b=e.target.closest("button[data-c]"); if(!b) return; catL=b.dataset.c; pintarLlaves();});
+pintarLlaves();
 function mostrar(v){
-  ["jugadores","partidos","cronograma"].forEach(x=>$("#vista-"+x).hidden=x!==v);
+  ["jugadores","partidos","llaves","cronograma"].forEach(x=>$("#vista-"+x).hidden=x!==v);
   document.querySelectorAll(".tabs a").forEach(a=>a.toggleAttribute("aria-current",a.dataset.vista===v)&&a.setAttribute("aria-current","page"));
 }
 document.querySelector(".tabs").addEventListener("click",e=>{ const a=e.target.closest("a[data-vista]"); if(!a) return; e.preventDefault(); mostrar(a.dataset.vista); window.scrollTo(0,0); });
 pintarPartidos();
-/* Links directos: #partidos, #cronograma, #4ta, #5ta, #6ta, #7ma, #8va */
-(function(){ const h=decodeURIComponent((location.hash||"").slice(1)).toLowerCase(); if(CATEGORIAS.some(c=>c[0]===h)){ state.cat=h; $("#cat").value=h; } mostrar(["partidos","cronograma"].includes(h)?h:"jugadores"); })();
+/* Links directos: #partidos, #llaves, #cronograma, #4ta, #5ta, #6ta, #7ma, #8va */
+(function(){ const h=decodeURIComponent((location.hash||"").slice(1)).toLowerCase(); if(CATEGORIAS.some(c=>c[0]===h)){ state.cat=h; $("#cat").value=h; } mostrar(["partidos","llaves","cronograma"].includes(h)?h:"jugadores"); })();
 render();
 </script>
 </body>
