@@ -21,13 +21,13 @@
   --rojo:#E30613; --rojo-hondo:#B8050F;
   --bg:#F7F4F3; --surface:#FFFFFF; --fg:#1C1516; --muted:#6E6264;
   --line:#E9E1DF; --soft:#F3ECEA; --on-rojo:#FFFFFF;
-  --t-ent:#1F6FB2; --t-can:#1E8A55; --t-tor:#E30613;
+  --t-ent:#1F6FB2; --t-can:#1E8A55; --t-tor:#E30613; --linea:#CDBFBC;
   --display:"Outfit","Avenir Next","Segoe UI",system-ui,sans-serif;
   --body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root{ --rojo:#FF3B45; --rojo-hondo:#C80B16; --bg:#141011; --surface:#1F1819; --fg:#F6EFEE; --muted:#B3A6A7; --line:#342A2B; --soft:#2A2122; --t-ent:#5AA7EA; --t-can:#4CC287; --t-tor:#FF3B45; color-scheme:dark; }
+  :root{ --rojo:#FF3B45; --rojo-hondo:#C80B16; --bg:#141011; --surface:#1F1819; --fg:#F6EFEE; --muted:#B3A6A7; --line:#342A2B; --soft:#2A2122; --t-ent:#5AA7EA; --t-can:#4CC287; --t-tor:#FF3B45; --linea:#55474A; color-scheme:dark; }
 }
 *{box-sizing:border-box}
 html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -112,23 +112,24 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .tabs .wrap{overflow-x:auto;scrollbar-width:none}
 .tabs .wrap::-webkit-scrollbar{display:none}
 .tabs a{white-space:nowrap}
-.llave{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:16px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
-.ronda{display:flex;flex-direction:column;gap:12px;scroll-snap-align:start;min-width:0}
-.ronda>h2{margin:0;font:800 1.05rem var(--display);text-transform:uppercase;letter-spacing:.06em;padding-bottom:6px;border-bottom:2px solid var(--rojo)}
-.ronda>h2 small{font:600 .78rem var(--body);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:6px}
-.ronda-cuerpo{display:flex;flex-direction:column;gap:12px}
-.cruce{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.cruce .lado{display:flex;align-items:center;gap:8px;padding:9px 12px;font:600 .95rem/1.25 var(--display);min-width:0}
-.cruce .lado+.lado{border-top:1px solid var(--line)}
-.cruce .lado span{flex:1;min-width:0;overflow-wrap:anywhere}
-.cruce .lado.gana{background:var(--soft)}
-.cruce .lado.gana span{font-weight:800}
-.cruce .lado.gana::after{content:"Pasa";font:700 .66rem var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--on-rojo);background:var(--t-can);padding:2px 6px;border-radius:5px}
-.cruce .lado.pierde{color:var(--muted)}
-.cruce .lado.pierde span{text-decoration:line-through;text-decoration-color:var(--line)}
-.cruce .lado.tbd{color:var(--muted);font-style:italic;font-weight:500}
-.cruce .cuando{display:block;padding:6px 12px;border-top:1px dashed var(--line);font:700 .72rem var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--rojo)}
-.campeon{background:var(--rojo);color:var(--on-rojo);border-radius:12px;padding:16px;font:800 1.1rem/1.3 var(--display)}
+#llave.wrap{max-width:1240px}
+.llave-scroll{overflow-x:auto;padding-bottom:12px;margin-inline:-4px;padding-inline:4px}
+.llave{position:relative}
+.llave svg{position:absolute;inset:0;overflow:visible;pointer-events:none}
+.llave svg path{fill:none;stroke:var(--linea);stroke-width:2}
+.llave svg path.gana{stroke:var(--rojo);stroke-width:2.5}
+.llave .rh{position:absolute;top:0;font:800 .78rem var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);padding-bottom:6px;border-bottom:2px solid var(--rojo)}
+.box{position:absolute;display:flex;flex-direction:column;justify-content:center;background:var(--surface);border:1.5px solid var(--linea);border-radius:8px;padding:0 10px;overflow:hidden}
+.box span{font:600 .82rem/1.25 var(--display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.box.gana{border-color:var(--rojo);box-shadow:inset 4px 0 0 var(--rojo)}
+.box.gana span{font-weight:800}
+.box.pierde span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.box.vacio{border-style:dashed;background:transparent}
+.box.vacio span{color:var(--muted);font-weight:500;font-style:italic}
+.box.vacio span.cuando{color:var(--rojo);font-style:normal;font-weight:800;font-size:.75rem;letter-spacing:.04em;text-transform:uppercase}
+.box.campeon{background:var(--rojo);border-color:var(--rojo)}
+.box.campeon span{color:var(--on-rojo);font-weight:800}
+.box.campeon.vacio span{color:var(--on-rojo);opacity:.85}
 .llave-nota{margin:14px 2px 0;color:var(--muted);font-size:.9rem}
 .contacto{margin-top:40px;background:var(--rojo-hondo);color:var(--on-rojo)}
 .contacto .wrap{padding-block:32px;display:flex;flex-direction:column;gap:18px}
@@ -280,7 +281,7 @@ const CRONOGRAMA = [
   {"dia": 6, "desde": "19:00", "hasta": "", "tipo": "Torneo", "detalle": "Caballeros 5TA/6TA"}
 ];
 /* Llaves del Torneo Largo del Millón: copiadas de la hoja "CRUCES" */
-const LLAVES = [{"categoria": "5ta", "rondas": [{"nombre": "16avos", "partidos": [{"a": ["Gabriel Miño", "Sergio Silvero"], "b": ["Eugenio Colombini", "Juani García Haymes"], "ganador": null}]}, {"nombre": "Octavos", "partidos": [{"a": ["Sandro Gomez", "Ale Casanova"], "b": null, "ganador": null}, {"a": ["Nelson", "Zorri"], "b": ["Juan Barberia", "Bruno Demarchi"], "ganador": null}, {"a": ["Fer Cardenas", "Fede Arias"], "b": ["Hernan Lanosa", "Cristian Lopez"], "ganador": null}, {"a": ["Pablo Migliarini", "Ale Mancini"], "b": ["Santi Bianchi", "Diego Guarniolo"], "ganador": null}, {"a": ["Walter Aguero", "Axel Morales"], "b": ["David Mateu", "Santi Zarate"], "ganador": null}, {"a": ["Joaco Ferreyra", "Javier Khorasanoglu"], "b": ["Alex Graneros", "Kevin Ramirez"], "ganador": null}, {"a": ["Seba Underner", "Pablo Marino"], "b": ["Hugo Curuchet", "Dani Campos"], "ganador": null}, {"a": ["Nico Chehin", "Tano"], "b": ["Francisco Klapputh", "Franco Killer Soria"], "ganador": null}]}], "proxima": "Cuartos"}, {"categoria": "6ta", "rondas": [{"nombre": "16avos", "partidos": [{"a": ["Santi Stroia", "Carlos"], "b": ["Jorge Andrés Olivero", "Alejandro Rosa"], "ganador": "b"}, {"a": ["Matías Etchart", "Agustín Buiani"], "b": ["Gaston Ezequiel Sanchez", "Sergio Gabriel Silvero"], "ganador": "b"}]}, {"nombre": "Octavos", "partidos": [{"a": ["Pablo Migliarini", "Carlos Marino"], "b": ["Jorge Andres Olivero", "Alejandro Rosa"], "ganador": null}, {"a": ["Walter Montiel", "Martin Jurado"], "b": ["Gaston Ezequiel Sanchez", "Sergio Gabriel Silvero"], "ganador": null}, {"a": ["Etchecooar Germán", "Buezas Daniel"], "b": ["Diego Rosa", "Leo Molina"], "ganador": "b"}, {"a": ["Alberto Toledo", "Matias Gonzalez"], "b": ["Javier Martinez", "Javier Stroia"], "ganador": null}, {"a": ["Tobi Brun", "Santi Milistrelli"], "b": ["Pablo Marino", "Sebastian Gomez"], "ganador": null}, {"a": ["Nicolás de Luca", "Brian Barbieris"], "b": ["Daniel Rossi", "Nicolas Blanco"], "ganador": "a"}, {"a": ["Lucas Lopez", "Fede Ligorria"], "b": ["Ariel Malagoli", "Cristian Zerzer"], "ganador": null}, {"a": ["Agustin Fabaro", "Agustin Tanzi"], "b": ["Horacio Jerez", "Carly Lucio"], "ganador": "b"}]}, {"nombre": "Cuartos", "partidos": [{"a": ["Diego Rosa", "Leo Molina"], "b": null, "ganador": null}, {"a": ["Nicolás de Luca", "Brian Barbieris"], "b": null, "ganador": null}, {"a": ["Horacio Jerez", "Carly Lucio"], "b": null, "ganador": null}]}], "proxima": "Semifinal"}, {"categoria": "7ma", "rondas": [{"nombre": "Octavos", "partidos": [{"a": ["Sebastian Albertarelli", "Joaquin Soria"], "b": ["Cesar Petit", "Gaston Bourren"], "ganador": null}, {"a": ["Lucas Lopez", "Fede Ligorria"], "b": ["Gabriel Miranda", "Jose Negro"], "ganador": "b"}, {"a": ["Tobias Bussola", "Tomas Castano"], "b": ["Javier Stroia", "Javier Martinez"], "ganador": "b"}, {"a": ["Juan Marcos Carabajal", "Enzo Dolera"], "b": ["Carlos Gaston Rodriguez", "Ariel Vergia"], "ganador": "a"}]}, {"nombre": "Cuartos", "partidos": [{"a": ["Gonzalo Fabro", "Gonzalo Calandra"], "b": null, "ganador": null}, {"a": ["Javier Arequipa", "Patricio Martinez"], "b": ["Gabriel Miranda", "Jose Negro"], "ganador": null}, {"a": ["Facundo Fragola", "Agustin Perelman"], "b": ["Javier Stroia", "Javier Martinez"], "ganador": null}, {"a": ["Guillermo Sena", "Fernando Bienneres"], "b": ["Juan Marcos Carabajal", "Enzo Dolera"], "ganador": "a"}]}, {"nombre": "Semifinal", "partidos": [{"a": ["Guillermo Sena", "Fernando Bienneres"], "b": null, "ganador": null}]}], "proxima": "Final"}, {"categoria": "8va", "rondas": [{"nombre": "Octavos", "partidos": [{"a": ["Matias Scifo", "Fernando Camelino"], "b": ["Raul Bianco", "Fernando Ramón López"], "ganador": "a"}, {"a": ["Walter Brito", "Victor Herzkovich"], "b": ["Carlos Maran", "Carlos Ariel Muñoz"], "ganador": null}, {"a": ["Javier Tomkowicz", "Federico Trabucco"], "b": null, "ganador": null}]}, {"nombre": "Cuartos", "partidos": [{"a": ["Matias Scifo", "Fernando Camelino"], "b": ["Alberto Pitronaci", "Marcos Barbagelatta"], "ganador": null}, {"a": ["Lazaro", "Leo Puntacarlo"], "b": null, "ganador": null}, {"a": ["Francisco La Greca", "Juan Pablo Guagliardi"], "b": null, "ganador": null}]}], "proxima": "Semifinal"}];
+const LLAVES = [{"categoria": "5ta", "rondas": ["16avos", "Octavos", "Cuartos", "Semifinal", "Final"], "recuadros": [{"ronda": 0, "fila": 2, "jugadores": ["Gabriel Miño", "Sergio Silvero"]}, {"ronda": 0, "fila": 6, "jugadores": ["Eugenio Colombini", "Juani García Haymes"]}, {"ronda": 1, "fila": 0, "jugadores": ["Sandro Gomez", "Ale Casanova"]}, {"ronda": 1, "fila": 4, "jugadores": []}, {"ronda": 1, "fila": 8, "jugadores": ["Nelson", "Zorri"]}, {"ronda": 1, "fila": 12, "jugadores": ["Juan Barberia", "Bruno Demarchi"]}, {"ronda": 1, "fila": 16, "jugadores": ["Fer Cardenas", "Fede Arias"]}, {"ronda": 1, "fila": 20, "jugadores": ["Hernan Lanosa", "Cristian Lopez"]}, {"ronda": 1, "fila": 24, "jugadores": ["Pablo Migliarini", "Ale Mancini"]}, {"ronda": 1, "fila": 28, "jugadores": ["Santi Bianchi", "Diego Guarniolo"]}, {"ronda": 1, "fila": 32, "jugadores": ["Walter Aguero", "Axel Morales"]}, {"ronda": 1, "fila": 36, "jugadores": ["David Mateu", "Santi Zarate"]}, {"ronda": 1, "fila": 40, "jugadores": ["Joaco Ferreyra", "Javier Khorasanoglu"]}, {"ronda": 1, "fila": 44, "jugadores": ["Alex Graneros", "Kevin Ramirez"]}, {"ronda": 1, "fila": 48, "jugadores": ["Seba Underner", "Pablo Marino"]}, {"ronda": 1, "fila": 52, "jugadores": ["Hugo Curuchet", "Dani Campos"]}, {"ronda": 1, "fila": 56, "jugadores": ["Nico Chehin", "Tano"]}, {"ronda": 1, "fila": 60, "jugadores": ["Francisco Klapputh", "Franco Killer Soria"]}, {"ronda": 2, "fila": 2, "jugadores": []}, {"ronda": 2, "fila": 10, "jugadores": []}, {"ronda": 2, "fila": 18, "jugadores": []}, {"ronda": 2, "fila": 26, "jugadores": []}, {"ronda": 2, "fila": 34, "jugadores": []}, {"ronda": 2, "fila": 42, "jugadores": []}, {"ronda": 2, "fila": 50, "jugadores": []}, {"ronda": 2, "fila": 58, "jugadores": []}, {"ronda": 3, "fila": 6, "jugadores": []}, {"ronda": 3, "fila": 22, "jugadores": []}, {"ronda": 3, "fila": 38, "jugadores": []}, {"ronda": 3, "fila": 54, "jugadores": []}, {"ronda": 4, "fila": 14, "jugadores": []}, {"ronda": 4, "fila": 46, "jugadores": []}], "enlaces": [{"de": [0, 1], "a": 3}, {"de": [2, 3], "a": 18}, {"de": [4, 5], "a": 19}, {"de": [6, 7], "a": 20}, {"de": [8, 9], "a": 21}, {"de": [10, 11], "a": 22}, {"de": [12, 13], "a": 23}, {"de": [14, 15], "a": 24}, {"de": [16, 17], "a": 25}, {"de": [18, 19], "a": 26}, {"de": [20, 21], "a": 27}, {"de": [22, 23], "a": 28}, {"de": [24, 25], "a": 29}, {"de": [26, 27], "a": 30}, {"de": [28, 29], "a": 31}]}, {"categoria": "6ta", "rondas": ["16avos", "Octavos", "Cuartos", "Semifinal", "Final", "Campeón"], "recuadros": [{"ronda": 0, "fila": 2, "jugadores": ["Santi Stroia", "Carlos"], "estado": "pierde"}, {"ronda": 0, "fila": 6, "jugadores": ["Jorge Andrés Olivero", "Alejandro Rosa"], "estado": "gana"}, {"ronda": 0, "fila": 10, "jugadores": ["Matías Etchart", "Agustín Buiani"], "estado": "pierde"}, {"ronda": 0, "fila": 14, "jugadores": ["Gaston Ezequiel Sanchez", "Sergio Gabriel Silvero"], "estado": "gana"}, {"ronda": 1, "fila": 0, "jugadores": ["Pablo Migliarini", "Carlos Marino"]}, {"ronda": 1, "fila": 4, "jugadores": ["Jorge Andres Olivero", "Alejandro Rosa"]}, {"ronda": 1, "fila": 8, "jugadores": ["Walter Montiel", "Martin Jurado"]}, {"ronda": 1, "fila": 12, "jugadores": ["Gaston Ezequiel Sanchez", "Sergio Gabriel Silvero"]}, {"ronda": 1, "fila": 16, "jugadores": ["Etchecooar Germán", "Buezas Daniel"], "estado": "pierde"}, {"ronda": 1, "fila": 20, "jugadores": ["Diego Rosa", "Leo Molina"], "estado": "gana"}, {"ronda": 1, "fila": 24, "jugadores": ["Alberto Toledo", "Matias Gonzalez"]}, {"ronda": 1, "fila": 28, "jugadores": ["Javier Martinez", "Javier Stroia"]}, {"ronda": 1, "fila": 32, "jugadores": ["Tobi Brun", "Santi Milistrelli"]}, {"ronda": 1, "fila": 36, "jugadores": ["Pablo Marino", "Sebastian Gomez"]}, {"ronda": 1, "fila": 40, "jugadores": ["Nicolás de Luca", "Brian Barbieris"], "estado": "gana"}, {"ronda": 1, "fila": 44, "jugadores": ["Daniel Rossi", "Nicolas Blanco"], "estado": "pierde"}, {"ronda": 1, "fila": 48, "jugadores": ["Lucas Lopez", "Fede Ligorria"]}, {"ronda": 1, "fila": 52, "jugadores": ["Ariel Malagoli", "Cristian Zerzer"]}, {"ronda": 1, "fila": 56, "jugadores": ["Agustin Fabaro", "Agustin Tanzi"], "estado": "pierde"}, {"ronda": 1, "fila": 60, "jugadores": ["Horacio Jerez", "Carly Lucio"], "estado": "gana"}, {"ronda": 2, "fila": 2, "jugadores": []}, {"ronda": 2, "fila": 10, "jugadores": []}, {"ronda": 2, "fila": 18, "jugadores": ["Diego Rosa", "Leo Molina"]}, {"ronda": 2, "fila": 26, "jugadores": []}, {"ronda": 2, "fila": 34, "jugadores": []}, {"ronda": 2, "fila": 42, "jugadores": ["Nicolás de Luca", "Brian Barbieris"]}, {"ronda": 2, "fila": 50, "jugadores": []}, {"ronda": 2, "fila": 58, "jugadores": ["Horacio Jerez", "Carly Lucio"]}, {"ronda": 3, "fila": 6, "jugadores": []}, {"ronda": 3, "fila": 22, "jugadores": []}, {"ronda": 3, "fila": 38, "jugadores": []}, {"ronda": 3, "fila": 54, "jugadores": []}, {"ronda": 4, "fila": 14, "jugadores": []}, {"ronda": 4, "fila": 46, "jugadores": []}, {"ronda": 5, "fila": 30, "jugadores": []}], "enlaces": [{"de": [0, 1], "a": 5}, {"de": [2, 3], "a": 7}, {"de": [4, 5], "a": 20}, {"de": [6, 7], "a": 21}, {"de": [8, 9], "a": 22}, {"de": [10, 11], "a": 23}, {"de": [12, 13], "a": 24}, {"de": [14, 15], "a": 25}, {"de": [16, 17], "a": 26}, {"de": [18, 19], "a": 27}, {"de": [20, 21], "a": 28}, {"de": [22, 23], "a": 29}, {"de": [24, 25], "a": 30}, {"de": [26, 27], "a": 31}, {"de": [28, 29], "a": 32}, {"de": [30, 31], "a": 33}, {"de": [32, 33], "a": 34}]}, {"categoria": "7ma", "rondas": ["Octavos", "Cuartos", "Semifinal", "Final", "Campeón"], "recuadros": [{"ronda": 0, "fila": 2, "jugadores": ["Sebastian Albertarelli", "Joaquin Soria"]}, {"ronda": 0, "fila": 6, "jugadores": ["Cesar Petit", "Gaston Bourren"]}, {"ronda": 0, "fila": 11, "jugadores": ["Lucas Lopez", "Fede Ligorria"], "estado": "pierde"}, {"ronda": 0, "fila": 15, "jugadores": ["Gabriel Miranda", "Jose Negro"], "estado": "gana"}, {"ronda": 0, "fila": 20, "jugadores": ["Tobias Bussola", "Tomas Castano"], "estado": "pierde"}, {"ronda": 0, "fila": 24, "jugadores": ["Javier Stroia", "Javier Martinez"], "estado": "gana"}, {"ronda": 0, "fila": 28, "jugadores": ["Juan Marcos Carabajal", "Enzo Dolera"], "estado": "gana"}, {"ronda": 0, "fila": 32, "jugadores": ["Carlos Gaston Rodriguez", "Ariel Vergia"], "estado": "pierde"}, {"ronda": 1, "fila": 0, "jugadores": ["Gonzalo Fabro", "Gonzalo Calandra"]}, {"ronda": 1, "fila": 4, "jugadores": []}, {"ronda": 1, "fila": 9, "jugadores": ["Javier Arequipa", "Patricio Martinez"]}, {"ronda": 1, "fila": 13, "jugadores": ["Gabriel Miranda", "Jose Negro"]}, {"ronda": 1, "fila": 18, "jugadores": ["Facundo Fragola", "Agustin Perelman"]}, {"ronda": 1, "fila": 22, "jugadores": ["Javier Stroia", "Javier Martinez"]}, {"ronda": 1, "fila": 26, "jugadores": ["Guillermo Sena", "Fernando Bienneres"], "estado": "gana"}, {"ronda": 1, "fila": 30, "jugadores": ["Juan Marcos Carabajal", "Enzo Dolera"], "estado": "pierde"}, {"ronda": 2, "fila": 1, "jugadores": []}, {"ronda": 2, "fila": 11, "jugadores": []}, {"ronda": 2, "fila": 20, "jugadores": []}, {"ronda": 2, "fila": 28, "jugadores": ["Guillermo Sena", "Fernando Bienneres"]}, {"ronda": 3, "fila": 6, "jugadores": []}, {"ronda": 3, "fila": 25, "jugadores": []}, {"ronda": 4, "fila": 15, "jugadores": []}], "enlaces": [{"de": [0, 1], "a": 9}, {"de": [2, 3], "a": 11}, {"de": [4, 5], "a": 13}, {"de": [6, 7], "a": 15}, {"de": [8, 9], "a": 16}, {"de": [10, 11], "a": 17}, {"de": [12, 13], "a": 18}, {"de": [14, 15], "a": 19}, {"de": [16, 17], "a": 20}, {"de": [18, 19], "a": 21}, {"de": [20, 21], "a": 22}]}, {"categoria": "8va", "rondas": ["Octavos", "Cuartos", "Semifinal", "Final", "Campeón"], "recuadros": [{"ronda": 0, "fila": 2, "jugadores": ["Matias Scifo", "Fernando Camelino"], "estado": "gana"}, {"ronda": 0, "fila": 6, "jugadores": ["Raul Bianco", "Fernando Ramón López"], "estado": "pierde"}, {"ronda": 0, "fila": 11, "jugadores": ["Walter Brito", "Victor Herzkovich"]}, {"ronda": 0, "fila": 15, "jugadores": ["Carlos Maran", "Carlos Ariel Muñoz"]}, {"ronda": 0, "fila": 28, "jugadores": ["Javier Tomkowicz", "Federico Trabucco"]}, {"ronda": 0, "fila": 32, "jugadores": []}, {"ronda": 1, "fila": 0, "jugadores": []}, {"ronda": 1, "fila": 4, "jugadores": ["Matias Scifo", "Fernando Camelino"]}, {"ronda": 1, "fila": 9, "jugadores": ["Alberto Pitronaci", "Marcos Barbagelatta"]}, {"ronda": 1, "fila": 13, "jugadores": []}, {"ronda": 1, "fila": 18, "jugadores": ["Lazaro", "Leo Puntacarlo"]}, {"ronda": 1, "fila": 22, "jugadores": []}, {"ronda": 1, "fila": 26, "jugadores": ["Francisco La Greca", "Juan Pablo Guagliardi"]}, {"ronda": 1, "fila": 30, "jugadores": []}, {"ronda": 2, "fila": 1, "jugadores": []}, {"ronda": 2, "fila": 11, "jugadores": []}, {"ronda": 2, "fila": 20, "jugadores": []}, {"ronda": 2, "fila": 28, "jugadores": []}, {"ronda": 3, "fila": 6, "jugadores": []}, {"ronda": 3, "fila": 25, "jugadores": []}, {"ronda": 4, "fila": 15, "jugadores": []}], "enlaces": [{"de": [0, 1], "a": 7}, {"de": [2, 3], "a": 9}, {"de": [4, 5], "a": 13}, {"de": [6, 7], "a": 14}, {"de": [8, 9], "a": 15}, {"de": [10, 11], "a": 16}, {"de": [12, 13], "a": 17}, {"de": [14, 15], "a": 18}, {"de": [16, 17], "a": 19}, {"de": [18, 19], "a": 20}]}];
 /* foto: dejar "" si no hay */
 const JUGADORES = [
   {"nombre": "Daniel", "apellido": "Diaz", "categoria": "4ta", "foto": ""},
@@ -614,23 +615,42 @@ pintarCrono();
 let catL="";
 const apellidos = p => new Set(p.map(n=>norm(n).trim().split(/\s+/).pop()));
 const mismaPareja = (p, txt) => { const a=apellidos(p), b=new Set(txt.split(" / ").map(n=>norm(n).trim().split(/\s+/).pop())); return [...a].every(x=>b.has(x)); };
-function cuandoSe(c, cat){
-  if(!c.b) return null;
-  const m=PARTIDOS.find(p=>p.fecha>=HOY && ((mismaPareja(c.a,p.pareja1)&&mismaPareja(c.b,p.pareja2))||(mismaPareja(c.a,p.pareja2)&&mismaPareja(c.b,p.pareja1))));
+function cuandoSe(A, B){
+  const m=PARTIDOS.find(p=>p.fecha>=HOY && ((mismaPareja(A,p.pareja1)&&mismaPareja(B,p.pareja2))||(mismaPareja(A,p.pareja2)&&mismaPareja(B,p.pareja1))));
   return m?`${m.dia} · ${m.hora}`:null;
+}
+function dibujarLlave(l){
+  const U=22, W=window.innerWidth<560?168:200, G=window.innerWidth<560?30:44, TOP=40;
+  const R=l.recuadros, n=l.rondas.length;
+  const maxF=Math.max(0,...R.map(b=>b.fila));
+  const H=TOP+(maxF+2)*U+4, ancho=n*W+(n-1)*G;
+  const x=r=>r*(W+G), y=f=>TOP+f*U, cy=b=>y(b.fila)+U;
+  const fechas={};
+  l.enlaces.forEach(e=>{ if(e.de.length===2){ const [p,q]=e.de.map(i=>R[i]); if(p.jugadores.length&&q.jugadores.length&&!R[e.a].jugadores.length){ const c=cuandoSe(p.jugadores,q.jugadores); if(c) fechas[e.a]=c; } } });
+  let paths="";
+  l.enlaces.forEach(e=>{
+    const t=R[e.a], xm=x(t.ronda)-G/2, ty=cy(t);
+    e.de.forEach(i=>{ const s=R[i], sy=cy(s), g=s.estado==="gana";
+      paths+=`<path class="${g?"gana":""}" d="M${x(s.ronda)+W} ${sy} H${xm} V${ty} H${x(t.ronda)}"/>`; });
+  });
+  // dibujar primero las líneas grises y arriba las rojas
+  paths=paths.split("<path").filter(Boolean).map(p=>"<path"+p).sort((a,b)=>a.includes('"gana"')-b.includes('"gana"')).join("");
+  const heads=l.rondas.map((r,i)=>`<div class="rh" style="left:${x(i)}px;width:${W}px">${esc(r)}</div>`).join("");
+  const boxes=R.map((b,i)=>{
+    const camp=l.rondas[b.ronda]==="Campeón", vac=!b.jugadores.length;
+    const cls=["box",camp?"campeon":"",vac?"vacio":"",b.estado||""].join(" ");
+    const txt=vac?(fechas[i]?`<span class="cuando">${esc(fechas[i])}</span>`:`<span>${camp?"Campeón":"A definir"}</span>`):b.jugadores.map(j=>`<span title="${esc(j)}">${esc(j)}</span>`).join("");
+    return `<div class="${cls}" style="left:${x(b.ronda)}px;top:${y(b.fila)}px;width:${W}px;height:${2*U}px">${txt}</div>`;
+  }).join("");
+  return `<div class="llave-scroll"><div class="llave" style="width:${ancho}px;height:${H}px"><svg width="${ancho}" height="${H}" aria-hidden="true">${paths}</svg>${heads}${boxes}</div></div>`;
 }
 function pintarLlaves(){
   const cats=LLAVES.map(l=>l.categoria);
   if(!catL||!cats.includes(catL)) catL=cats[0]||"";
   $("#cats-llave").innerHTML=cats.map(c=>`<button type="button" class="chip" data-c="${esc(c)}" aria-pressed="${c===catL}">${esc(nombreCat(c))}</button>`).join("");
   const l=LLAVES.find(x=>x.categoria===catL);
-  if(!l){ $("#llave").innerHTML=`<p class="vacio"><strong>Todavía no hay llaves cargadas</strong>Volvé a mirar en unos días.</p>`; return; }
-  const lado=(p,cls)=>p?`<div class="lado ${cls}"><span>${esc(p.join(" / "))}</span></div>`:`<div class="lado tbd"><span>A definir</span></div>`;
-  $("#llave").innerHTML=`<div class="llave">`+l.rondas.map(r=>{
-    if(r.nombre==="Campeón") return `<section class="ronda"><h2>Campeón</h2><div class="ronda-cuerpo"><div class="campeon">${esc(r.partidos[0].a.join(" / "))}</div></div></section>`;
-    return `<section class="ronda"><h2>${esc(r.nombre)}<small>${r.partidos.length} ${r.partidos.length===1?"cruce":"cruces"}</small></h2><div class="ronda-cuerpo">`+
-      r.partidos.map(c=>{const w=c.ganador, cu=cuandoSe(c); return `<article class="cruce">${lado(c.a,w==="a"?"gana":w==="b"?"pierde":"")}${lado(c.b,w==="b"?"gana":w==="a"?"pierde":"")}${cu?`<span class="cuando">${esc(cu)}</span>`:""}</article>`}).join("")+`</div></section>`;
-  }).join("")+`</div>`+(l.proxima?`<p class="llave-nota">Próxima ronda: ${esc(l.proxima)}. Se completa a medida que se juegan los partidos.</p>`:"");
+  $("#llave").innerHTML = l ? dibujarLlave(l)+`<p class="llave-nota">Las líneas rojas marcan quién pasó de ronda. En el celular, deslizá de costado para ver toda la llave.</p>`
+    : `<p class="vacio"><strong>Todavía no hay llaves cargadas</strong>Volvé a mirar en unos días.</p>`;
 }
 $("#cats-llave").addEventListener("click",e=>{const b=e.target.closest("button[data-c]"); if(!b) return; catL=b.dataset.c; pintarLlaves();});
 pintarLlaves();
