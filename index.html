@@ -106,6 +106,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .act time{grid-row:span 2;font:800 1.15rem/1.1 var(--display);font-variant-numeric:tabular-nums;color:var(--fg);text-align:center;min-width:3.4em}
 .act time span{display:block;font:700 .65rem var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 .act .tipo{font:700 .72rem var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.esp-titulo{margin:8px 0 0;font:800 .8rem var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.especiales{margin-bottom:18px;padding-bottom:6px;border-bottom:2px solid var(--line)}
 .act .nota{grid-column:2;font:700 .72rem var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--rojo)}
 .act b{font:700 1.05rem/1.25 var(--display);overflow-wrap:anywhere}
 .t-ent{--c:var(--t-ent)} .t-can{--c:var(--t-can)} .t-tor{--c:var(--t-tor)} .t-otro{--c:var(--muted)}
@@ -256,7 +258,7 @@ const PARTIDOS = [
 ];
 /* Cronograma semanal: copiado de la hoja "CRONOGRAMA" (dia: 0 = lunes) */
 const CRONOGRAMA = [
-  {"dia": 0, "desde": "10:00", "hasta": "13:30", "tipo": "Torneo", "detalle": "Damas 8VA", "nota": "ESPECIAL FERIADO LUNES 23/11"},
+  {"dia": 0, "desde": "10:00", "hasta": "13:30", "tipo": "Torneo", "detalle": "Damas 8VA", "fecha": "2026-11-23", "nota": "ESPECIAL FERIADO"},
   {"dia": 1, "desde": "09:30", "hasta": "11:30", "tipo": "Entrenamiento", "detalle": "INICIAL"},
   {"dia": 1, "desde": "11:30", "hasta": "13:30", "tipo": "Entrenamiento", "detalle": "AVANZADO"},
   {"dia": 3, "desde": "09:30", "hasta": "11:30", "tipo": "Entrenamiento", "detalle": "INICIAL"},
@@ -594,11 +596,15 @@ function pintarCrono(){
   const presentes=Object.keys(TIPOS).filter(t=>CRONOGRAMA.some(e=>e.tipo===t));
   $("#tipos").innerHTML=[["","Todas"],...presentes.map(t=>[t,TIPOS[t][2]])]
     .map(([v,t])=>`<button type="button" class="chip ${v?TIPOS[v][0]:""}" data-t="${esc(v)}" aria-pressed="${tipoC===v}">${v?"<i></i>":""}${esc(t)}</button>`).join("");
-  const lista=CRONOGRAMA.filter(e=>!tipoC||e.tipo===tipoC);
-  if(!lista.length){ $("#lista-crono").innerHTML=`<p class="vacio"><strong>No hay actividades cargadas</strong>Volvé a mirar en unos días.</p>`; return; }
+  const todas=CRONOGRAMA.filter(e=>!tipoC||e.tipo===tipoC);
+  const lista=todas.filter(e=>!e.fecha), especiales=todas.filter(e=>e.fecha&&e.fecha>=HOY).sort((x,y)=>(x.fecha+x.desde).localeCompare(y.fecha+y.desde));
+  const tarjeta=e=>{const [cls,nom]=TIPOS[e.tipo]||TIPOS.Otro; return `<article class="act ${cls}"><time>${esc(e.desde)}</time><span class="tipo">${esc(nom)}</span><b>${esc(lindo(e.detalle||nom))}</b>${e.nota?`<span class="nota">${esc(lindo(e.nota))}</span>`:""}</article>`};
+  const fechaLinda=f=>{const d=new Date(f+"T12:00:00"); return `${DIAS_N[(d.getDay()+6)%7]} ${d.getDate()}/${d.getMonth()+1}`};
+  const htmlEsp=especiales.length?`<section class="especiales"><h2 class="esp-titulo">Fechas especiales</h2>`+[...new Set(especiales.map(e=>e.fecha))].map(f=>`<section class="crono-dia"><h2>${fechaLinda(f)}${f===HOY?"<small>Hoy</small>":""}</h2><div class="actividades">${especiales.filter(e=>e.fecha===f).map(tarjeta).join("")}</div></section>`).join("")+`</section><h2 class="esp-titulo">Todas las semanas</h2>`:"";
+  if(!lista.length&&!especiales.length){ $("#lista-crono").innerHTML=`<p class="vacio"><strong>No hay actividades cargadas</strong>Volvé a mirar en unos días.</p>`; return; }
   const hoy=(new Date().getDay()+6)%7;
-  $("#lista-crono").innerHTML=[0,1,2,3,4,5,6].filter(d=>lista.some(e=>e.dia===d)).map(d=>`<section class="crono-dia"><h2>${DIAS_N[d]}${d===hoy?"<small>Hoy</small>":""}</h2><div class="actividades">`+
-    lista.filter(e=>e.dia===d).map(e=>{const [cls,nom]=TIPOS[e.tipo]||TIPOS.Otro; return `<article class="act ${cls}"><time>${esc(e.desde)}</time><span class="tipo">${esc(nom)}</span><b>${esc(lindo(e.detalle||nom))}</b>${e.nota?`<span class="nota">${esc(lindo(e.nota))}</span>`:""}</article>`}).join("")+`</div></section>`).join("");
+  $("#lista-crono").innerHTML=htmlEsp+[0,1,2,3,4,5,6].filter(d=>lista.some(e=>e.dia===d)).map(d=>`<section class="crono-dia"><h2>${DIAS_N[d]}${d===hoy?"<small>Hoy</small>":""}</h2><div class="actividades">`+
+    lista.filter(e=>e.dia===d).map(tarjeta).join("")+`</div></section>`).join("");
 }
 $("#tipos").addEventListener("click",e=>{const b=e.target.closest("button[data-t]"); if(!b) return; tipoC=b.dataset.t; pintarCrono();});
 pintarCrono();
